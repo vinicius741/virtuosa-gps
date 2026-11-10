@@ -22,12 +22,11 @@ const PERFIL: Record<number, [number, number]> = {
 const BASE = 200;
 const PASSO = 12.5;
 const ALT = 11;
-const faixas = [...DECKS]
-  .reverse()
-  .map((n, i) => {
-    const [x1, x2] = PERFIL[n];
-    return { n, x: x1, w: x2 - x1, y: BASE - (i + 1) * PASSO, cabines: n >= 8 && n <= 14 };
-  });
+// DECKS vai do 5 ao 19: o primeiro fica embaixo.
+const faixas = DECKS.map((n, i) => {
+  const [x1, x2] = PERFIL[n];
+  return { n, x: x1, w: x2 - x1, y: BASE - (i + 1) * PASSO, cabines: n >= 8 && n <= 14 };
+});
 const deck7 = faixas.find((f) => f.n === 7)!;
 const deck19 = faixas.find((f) => f.n === 19)!;
 const botes = Array.from({ length: 9 }, (_, i) => 70 + i * 26);
