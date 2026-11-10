@@ -1,0 +1,20 @@
+{
+ "deck": 18,
+ "total": 98.71,
+ "parts": {
+  "hull": 0.9991,
+  "edges": 0.9352,
+  "cover": 1.0,
+  "labels": 1.0,
+  "semantics": 0.9667,
+  "cabins": 1.0,
+  "cats": 1.0,
+  "texto": 1.0
+ },
+ "penalty": 0.0,
+ "errors": [],
+ "hints": [
+  "semantics: 17/18 named venues have a fitting category. Fix: r58 'Sliding Roof' is a named venue but cat restrito: is it really not public?",
+  "info: 18 cabins in the spec; numbers between 18001 and 18019 not present: 1 (some numbers are simply not used on the ship - only add a cabin if you SEE it in ./pl view)"
+ ]
+}

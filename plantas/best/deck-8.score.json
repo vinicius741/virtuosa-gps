@@ -1,0 +1,20 @@
+{
+ "deck": 8,
+ "total": 99.74,
+ "parts": {
+  "hull": 0.9995,
+  "edges": 0.9887,
+  "cover": 1.0,
+  "labels": null,
+  "semantics": 1.0,
+  "cabins": 0.9958,
+  "cats": 1.0,
+  "texto": null
+ },
+ "penalty": 0.0,
+ "errors": [],
+ "hints": [
+  "cabins: 236/237 found. Missing or misplaced: 8231@(253,2907)",
+  "info: 258 cabins in the spec; numbers between 8001 and 8262 not present: 4 (some numbers are simply not used on the ship - only add a cabin if you SEE it in ./pl view)"
+ ]
+}

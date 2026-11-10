@@ -1,0 +1,1235 @@
+/* virtuosa-gps: styles for the ship GPS and the deck plans.
+   Uses the design tokens of the page (--surface, --ink, --primary, --accent, --line, --radius…);
+   see src/site/styles/site.css for the defaults and the basic components (.card, .btn, .input…). */
+
+/* Mapa do navio (MapaNavio.astro) */
+.mapa-navio {
+  --navio: var(--navy, #0b1f3a);
+  margin-top: 14px;
+}
+[data-cat='show'] { --c: #ffe3d8; --ci: #8a2c10; }
+[data-cat='comida'] { --c: #fdecc8; --ci: #7a4a00; }
+[data-cat='bar'] { --c: #efe6fb; --ci: #4b2a8a; }
+[data-cat='piscina'] { --c: #d4eafa; --ci: #0b4f7a; }
+[data-cat='esporte'] { --c: #d9f0e0; --ci: #1d6b3c; }
+[data-cat='criancas'] { --c: #fff3b8; --ci: #6b5a00; }
+[data-cat='loja'] { --c: #d3efeb; --ci: #0d5f57; }
+[data-cat='servico'] { --c: #e4ebf5; --ci: #33415a; }
+[data-cat='cabines'] { --c: #f3efe8; --ci: #66707f; }
+[data-cat='restrito'] { --c: #ebe7e0; --ci: #66707f; }
+
+/* Vista lateral */
+.perfil-navio {
+  padding: 14px 14px 16px;
+}
+.perfil-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.pf-mar {
+  fill: #d4eafa;
+}
+.pf-onda {
+  fill: none;
+  stroke: #9ccbea;
+  stroke-width: 1.2;
+}
+.pf-casco,
+.pf-chamine {
+  fill: var(--navio);
+}
+.pf-tobog {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+.pf-botes {
+  fill: #ff8a3d;
+  pointer-events: none;
+}
+.pf-rot {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  fill: #0b4f7a;
+}
+.pf-deck {
+  cursor: pointer;
+}
+.pf-deck rect {
+  fill: #e4ebf5;
+  stroke: #fff;
+  stroke-width: 0.8;
+  transition: fill 0.15s;
+}
+.pf-deck.pf-cab rect {
+  fill: #f1ece3;
+}
+.pf-deck .pf-jan {
+  stroke: rgb(11 31 58 / 22%);
+  stroke-width: 2;
+  stroke-dasharray: 2.5 2;
+}
+.pf-deck text {
+  font-size: 7.6px;
+  font-weight: 800;
+  fill: var(--ink);
+}
+.pf-deck:hover rect {
+  fill: #cfdcee;
+}
+.pf-deck.ativo rect {
+  fill: var(--accent);
+}
+.pf-deck.ativo text {
+  fill: #fff;
+}
+.pf-deck.ativo .pf-jan {
+  stroke: rgb(255 255 255 / 45%);
+}
+.perfil-dica {
+  margin: 8px 0 10px;
+  text-align: center;
+}
+.deck-chips {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+.deck-chip {
+  font: inherit;
+  font-weight: 800;
+  font-size: 0.95rem;
+  min-height: 42px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ghost-bg);
+  color: var(--ghost-ink);
+  cursor: pointer;
+}
+.deck-chip[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.cabine-busca {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.cabine-busca label.lbl {
+  margin: 0 0 6px;
+}
+.cabine-linha {
+  display: flex;
+  gap: 8px;
+}
+.cabine-linha .input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+}
+.cabine-msg:empty {
+  display: none;
+}
+.cabine-msg {
+  margin: 8px 0 0;
+}
+
+/* Painel do deck */
+.deck-painel {
+  margin-top: 18px;
+  scroll-margin-top: calc(var(--header-h) + 12px);
+}
+.deck-cab {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.deck-num {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+.deck-cab h3 {
+  margin: 2px 0 2px;
+  font-size: 1.2rem;
+  line-height: 1.25;
+}
+.deck-cab p {
+  margin: 0;
+}
+.deck-setas {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.btn-seta {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 40px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--navio);
+  color: #fff;
+  cursor: pointer;
+}
+.btn-seta:disabled {
+  background: var(--surface-2);
+  color: var(--muted);
+  cursor: default;
+}
+.icon.sobe {
+  transform: rotate(180deg);
+}
+.icon.esq {
+  transform: rotate(90deg);
+}
+.icon.dir {
+  transform: rotate(-90deg);
+}
+.deck-corpo {
+  display: grid;
+  gap: 18px;
+}
+@media (min-width: 700px) {
+  .deck-corpo {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+.planta-dica {
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+/* Planta desenhada (public/plantas/deck-N.svg, gerada por plantas/tools/render.py) */
+.planta-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.planta-topo p {
+  margin: 0;
+}
+.planta-topo .btn {
+  flex: none;
+}
+.planta-desenho {
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.planta-msg {
+  padding: 40px 12px;
+  text-align: center;
+}
+.pw {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.pw-salas path {
+  fill: var(--c, #faf8f3);
+  stroke: var(--navio);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+.pw-salas path[data-cat='circulacao'] {
+  fill: #faf8f3;
+}
+.pw-salas path[data-agua] {
+  fill: #8ecdf2;
+}
+.pw-salas path[data-lugar] {
+  cursor: pointer;
+}
+.pw-salas path[data-lugar]:hover {
+  stroke-width: 2.5;
+}
+.pw-salas path.ativo {
+  stroke: var(--accent);
+  stroke-width: 5;
+}
+.pw-portas path {
+  /* a porta: o trecho da parede pintado com a cor da sala, como uma abertura */
+  fill: none;
+  stroke: var(--c, #faf8f3);
+  stroke-width: 2.6;
+  stroke-linecap: butt;
+  pointer-events: none;
+}
+.pw-portas path[data-cat='circulacao'] {
+  stroke: #faf8f3;
+}
+.pw-portas path.ativo {
+  stroke-width: 6.5; /* cobre o contorno grosso da sala destacada */
+}
+.pw-cabines path {
+  fill: #f3efe8;
+  stroke: #9aa5b5;
+  stroke-width: 0.8;
+}
+.pw-cabines path.achada {
+  fill: var(--accent);
+  stroke: var(--navio);
+  stroke-width: 2;
+  animation: cabine-pisca 1.2s ease-in-out 3;
+}
+@keyframes cabine-pisca {
+  50% {
+    fill-opacity: 0.35;
+  }
+}
+.pw text {
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.pw-cnum text {
+  fill: #33415a;
+  font-family: var(--font-mono);
+}
+.pw-nomes text {
+  fill: var(--ci, #66707f);
+  font-weight: 750;
+  paint-order: stroke;
+  stroke: rgb(255 255 255 / 75%);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.pr-svg {
+  margin: 0 auto;
+  background: #fff;
+}
+.pr-svg[hidden],
+.pr-area img[hidden] {
+  display: none;
+}
+.pr-svg [data-lugar] {
+  pointer-events: none;
+}
+
+/* Planta: casco visto de cima, proa em cima */
+.casco {
+  --proa: polygon(50% 0, 56.9% 9px, 63.3% 19px, 69.1% 28px, 74.5% 37px, 79.3% 46px, 83.7% 56px, 87.5% 65px, 90.8% 74px, 93.6% 84px, 95.9% 93px, 97.7% 102px, 99.0% 111px, 99.7% 121px, 100.0% 130px, 100% 100%, 0 100%, 0.0% 130px, 0.3% 121px, 1.0% 111px, 2.3% 102px, 4.1% 93px, 6.4% 84px, 9.2% 74px, 12.5% 65px, 16.3% 56px, 20.7% 46px, 25.5% 37px, 30.9% 28px, 36.7% 19px, 43.1% 9px);
+  background: var(--navio);
+  padding: 4px;
+  clip-path: var(--proa);
+  border-radius: 0 0 34px 34px;
+}
+.casco-dentro {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 6px 0;
+  background: #faf8f3;
+  clip-path: var(--proa);
+  border-radius: 0 0 30px 30px;
+}
+.proa,
+.popa {
+  display: grid;
+  place-items: end center;
+  height: 120px;
+  padding-bottom: 6px;
+}
+.popa {
+  place-items: center;
+  height: 40px;
+  padding: 0;
+}
+.proa span,
+.popa span {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.faixa {
+  display: flex;
+  gap: 3px;
+  min-height: calc(var(--h) * 34px);
+}
+.pilha {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.pilha .lugar {
+  flex: 1 1 0;
+}
+.lugar {
+  flex: var(--w, 1) 1 0;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  padding: 4px 5px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--c);
+  color: var(--ci);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 750;
+  line-height: 1.15;
+  text-align: center;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.lugar:hover {
+  box-shadow: inset 0 0 0 2px rgb(11 31 58 / 25%);
+}
+.lugar:active {
+  transform: scale(0.98);
+}
+.lugar.ativo {
+  box-shadow: inset 0 0 0 3px var(--accent);
+}
+.lugar[data-cat='cabines'] {
+  /* fileiras de cabines dos dois lados, com o corredor no meio */
+  background:
+    linear-gradient(90deg, transparent 33%, #fff 33% 37%, transparent 37% 63%, #fff 63% 67%, transparent 67%),
+    repeating-linear-gradient(180deg, transparent 0 13px, rgb(11 31 58 / 10%) 13px 14px),
+    var(--c);
+}
+.lugar[data-cat='cabines'] span {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--c);
+}
+.lugar[data-cat='restrito'] {
+  background: repeating-linear-gradient(135deg, var(--c) 0 7px, #e0dbd2 7px 10px);
+}
+.lugar[data-cat='piscina'] {
+  background:
+    radial-gradient(ellipse at 50% 120%, rgb(255 255 255 / 55%), transparent 60%),
+    var(--c);
+}
+.elev {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 22px;
+  border-block: 1px dashed rgb(11 31 58 / 20%);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.elev .icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Lista do deck */
+.deck-lista h4 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+.deck-lista ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.lugar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+.lugar-item-txt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.lugar-item-txt b {
+  font-size: 0.92rem;
+  line-height: 1.3;
+}
+.lugar-item-txt small {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+.lugar-cor {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--c);
+  color: var(--ci);
+}
+.lugar-cor .icon {
+  width: 18px;
+  height: 18px;
+}
+.deck-lista .link-mais {
+  margin-top: 12px;
+}
+.deck-aviso {
+  margin-top: 16px;
+}
+
+/* Detalhes do lugar: painel que sobe da parte de baixo */
+dialog.lugar-sheet {
+  width: 100%;
+  max-width: 520px;
+  margin: auto auto 0;
+  padding: 18px 18px calc(18px + var(--safe-b));
+  border: 0;
+  border-radius: 24px 24px 0 0;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 -10px 40px rgb(11 31 58 / 25%);
+}
+dialog.lugar-sheet[open] {
+  animation: sheet-in 0.2s ease-out;
+}
+dialog.lugar-sheet::backdrop {
+  background: rgb(11 31 58 / 45%);
+}
+@media (min-width: 600px) {
+  dialog.lugar-sheet {
+    margin: auto;
+    border-radius: 24px;
+  }
+}
+@keyframes sheet-in {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog.lugar-sheet[open] {
+    animation: none;
+  }
+}
+.ls-topo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ls-ico {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+}
+.ls-ico .icon {
+  width: 22px;
+  height: 22px;
+}
+.ls-titulo {
+  flex: 1;
+  min-width: 0;
+}
+.ls-titulo h3 {
+  margin: 2px 0 0;
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+.ls-fechar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--surface-2);
+  color: var(--ink);
+  cursor: pointer;
+}
+.ls-onde {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 14px 0 0;
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.ls-onde > .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+}
+.ls-onde .tag {
+  margin-left: 4px;
+}
+.ls-texto {
+  margin: 8px 0 16px;
+  color: var(--ink-2);
+}
+.ls-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.ls-nav .btn {
+  flex: 0 0 auto;
+}
+
+/* Planta real (imagem) */
+.planta-real-btn {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.cabine-acoes {
+  margin-top: 8px;
+}
+.ls-rota {
+  margin-bottom: 14px;
+}
+.plantas-offline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 12px 14px;
+}
+.plantas-offline[hidden] {
+  display: none;
+}
+.plantas-offline-txt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+}
+.plantas-offline-txt small {
+  font-size: 0.78rem;
+}
+.plantas-offline .btn {
+  flex: none;
+}
+dialog.planta-real {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #fff;
+  color: var(--ink);
+}
+dialog.planta-real[open] {
+  display: flex;
+  flex-direction: column;
+}
+dialog.planta-real::backdrop {
+  background: rgb(11 31 58 / 60%);
+}
+.pr-topo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: calc(10px + var(--safe-t)) 12px 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.pr-titulo {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+.pr-titulo h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.pr-topo .btn-seta {
+  width: 40px;
+  height: 40px;
+}
+.pr-topo form {
+  margin-left: 4px;
+}
+.pr-area {
+  position: relative;
+  flex: 1;
+  overflow: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-x pan-y;
+  background:
+    repeating-linear-gradient(45deg, #f6f4ef 0 12px, #f1eee7 12px 24px);
+}
+.pr-area img {
+  display: block;
+  max-width: none;
+  height: auto;
+  margin: 0 auto;
+  background: #fff;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.pr-base {
+  padding: 10px 12px calc(10px + var(--safe-b));
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.pr-zoom {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.pr-zoom button {
+  display: grid;
+  place-items: center;
+  min-width: 48px;
+  height: 40px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ghost-bg);
+  color: var(--ghost-ink);
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.pr-cred {
+  margin: 8px 0 0;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---------- GPS do navio (GpsNavio.astro) ---------- */
+.gps {
+  --navio: var(--navy, #0b1f3a);
+  margin-top: 16px;
+}
+.gps-pontos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 10px;
+  align-items: center;
+}
+.gps-ponto {
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  padding: 8px 12px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.gps-ponto:hover,
+.gps-ponto:focus-visible {
+  border-color: var(--primary);
+}
+.gps-ponto > .icon {
+  color: var(--muted);
+}
+.gps-ponto-txt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+.gps-ponto-txt small {
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+.gps-ponto-txt b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gps-ponto.vazio b {
+  font-weight: 600;
+  color: var(--primary);
+}
+.gps-letra {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--navio);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+.gps-letra.b {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.gps-trocar {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ghost-bg);
+  color: var(--ghost-ink);
+  cursor: pointer;
+}
+.icon.gira {
+  transform: rotate(90deg);
+}
+.gps-atalhos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.gps-atalhos .lbl {
+  margin-right: 2px;
+}
+.gps-chip {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ghost-bg);
+  color: var(--ghost-ink);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.gps-msg {
+  margin: 10px 0 0;
+  color: var(--danger);
+  font-weight: 600;
+}
+.gps-msg:empty {
+  display: none;
+}
+
+/* Resultado */
+.gps-resultado {
+  margin-top: 14px;
+  scroll-margin-top: calc(var(--header-h) + 12px);
+}
+.gps-numeros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 10px;
+}
+.gps-tempo {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--primary);
+}
+.gps-detalhe {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.gps-legenda {
+  margin: 8px 0 0;
+  text-align: center;
+}
+.perfil-svg.pf-fixo {
+  pointer-events: none;
+}
+.pf-rota path {
+  fill: none;
+  stroke: var(--navio);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.pf-rota .pf-halo {
+  stroke: #fff;
+  stroke-width: 5.6;
+}
+.pf-m circle {
+  fill: var(--navio);
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+.pf-m-b circle {
+  fill: var(--accent);
+}
+.pf-m text {
+  fill: #fff;
+  font-size: 7px;
+  font-weight: 800;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.gps-passos {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.gps-passos .card {
+  margin: 0;
+}
+.gps-passo-cab {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.gps-passo-cab h3 {
+  margin: 2px 0;
+  font-size: 1.05rem;
+  line-height: 1.3;
+}
+.gps-passo-cab p {
+  margin: 0;
+  color: var(--ink-2);
+}
+.gps-passo-ico {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--navio);
+  color: #fff;
+}
+.gps-troca .gps-passo-ico {
+  background: var(--ghost-bg);
+  color: var(--ghost-ink);
+}
+.gps-chegada .gps-passo-ico {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.gps-mapa {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #d4eafa;
+}
+.gps-mapa .pw {
+  overflow: hidden;
+}
+.gps-mapa .pw,
+.gps-zoom .pw {
+  pointer-events: none;
+}
+.gps-mapa-base {
+  margin: 8px 0 0;
+}
+.gps-aviso {
+  margin: 14px 0 0;
+}
+
+/* O caminho por cima da planta: as larguras são em pixels da tela, em qualquer zoom */
+.gps-tracado path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.gps-l0 {
+  stroke: #fff;
+  stroke-width: 10px;
+}
+.gps-l1 {
+  stroke: var(--primary);
+  stroke-width: 6px;
+}
+.gps-l2 {
+  stroke: #fff;
+  stroke-width: 2.4px;
+  stroke-dasharray: 0.1 12;
+  animation: gps-anda 0.9s linear infinite;
+}
+@keyframes gps-anda {
+  from {
+    stroke-dashoffset: 12.1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gps-l2 {
+    animation: none;
+  }
+}
+.gps-m circle {
+  fill: var(--navio);
+  stroke: #fff;
+  stroke-width: 2.5px;
+  vector-effect: non-scaling-stroke;
+}
+.gps-m-b circle {
+  fill: var(--accent);
+}
+.gps-m-e circle {
+  fill: #fff;
+  stroke: var(--navio);
+}
+.gps-m text {
+  fill: #fff;
+  font-family: var(--font);
+  font-weight: 800;
+}
+.gps-m-ico {
+  fill: none;
+  stroke: var(--navio);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Escolher a partida ou o destino */
+dialog.gps-picker {
+  height: min(88dvh, 760px);
+  padding-bottom: 0;
+}
+dialog.gps-picker[open] {
+  display: flex;
+  flex-direction: column;
+}
+.gps-busca {
+  margin-top: 14px;
+}
+.gps-lista {
+  flex: 1;
+  min-height: 0;
+  margin: 10px -18px 0;
+  padding: 0 18px calc(18px + var(--safe-b));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.gps-lista ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.gps-lista .lbl {
+  margin: 14px 0 6px;
+}
+.gps-lista .lugar-item {
+  background: var(--surface-2);
+  box-shadow: none;
+}
+.gps-vazio {
+  padding: 28px 8px;
+  text-align: center;
+}
+
+/* Favoritos do GPS (nomes dados às cabines da família) */
+.gps-favs {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.gps-favs-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.gps-favs-topo .lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.gps-favs-topo .lbl .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+}
+.gps-link {
+  padding: 4px 2px;
+  border: 0;
+  background: none;
+  color: var(--primary);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.gps-favs-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.gps-chip-fav {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
+  gap: 6px;
+  max-width: 100%;
+  background: var(--navio);
+  color: #fff;
+}
+.gps-chip-fav span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gps-chip-fav small {
+  font-size: 0.74rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  opacity: 0.75;
+}
+.gps-chip-novo {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
+  gap: 4px;
+  background: transparent;
+  border: 2px dashed var(--line);
+  color: var(--primary);
+}
+.gps-chip-novo .icon {
+  width: 15px;
+  height: 15px;
+}
+.gps-favs-nota {
+  margin: 8px 0 0;
+  color: var(--ok);
+  font-weight: 600;
+}
+.gps-favs-nota:empty {
+  display: none;
+}
+
+dialog.gps-favs-dlg {
+  max-height: 92dvh;
+  padding-bottom: 0;
+}
+dialog.gps-favs-dlg[open] {
+  display: flex;
+  flex-direction: column;
+}
+.gps-fav-ico {
+  --c: var(--accent);
+  --ci: var(--on-accent);
+}
+.gps-favs-corpo {
+  flex: 1;
+  min-height: 0;
+  margin: 0 -18px;
+  padding: 0 18px calc(18px + var(--safe-b));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.gps-favs-intro {
+  margin: 12px 0;
+}
+.gps-favs-itens {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.gps-fav-linha {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.gps-fav-linha .lugar-item {
+  flex: 1;
+  min-width: 0;
+  background: var(--surface-2);
+  box-shadow: none;
+}
+.gps-fav-linha .lugar-item-txt b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gps-fav-apagar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 50px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--danger);
+  cursor: pointer;
+}
+.gps-fav-form {
+  margin: 0 0 12px;
+  background: var(--surface-2);
+  box-shadow: none;
+}
+.gps-fav-form-titulo {
+  margin: 0;
+  font-size: 1rem;
+}
+.gps-fav-form .gps-ponto {
+  background: var(--surface);
+}
+.gps-fav-form .input {
+  background: var(--surface);
+}
+.gps-fav-botoes {
+  margin-top: 12px;
+}
+.gps-fav-enviar-nota {
+  margin: 8px 0 0;
+  text-align: center;
+}
+.gps-picker .gps-letra .icon {
+  width: 16px;
+  height: 16px;
+}

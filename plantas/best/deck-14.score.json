@@ -1,0 +1,19 @@
+{
+ "deck": 14,
+ "total": 99.92,
+ "parts": {
+  "hull": 0.9995,
+  "edges": 0.9919,
+  "cover": 1.0,
+  "labels": 1.0,
+  "semantics": 1.0,
+  "cabins": 1.0,
+  "cats": 1.0,
+  "texto": null
+ },
+ "penalty": 0.0,
+ "errors": [],
+ "hints": [
+  "info: 264 cabins in the spec; numbers between 14001 and 14288 not present: 24 (some numbers are simply not used on the ship - only add a cabin if you SEE it in ./pl view)"
+ ]
+}

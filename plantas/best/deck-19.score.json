@@ -1,0 +1,19 @@
+{
+ "deck": 19,
+ "total": 96.56,
+ "parts": {
+  "hull": 0.9989,
+  "edges": 0.9472,
+  "cover": 1.0,
+  "labels": 0.9375,
+  "semantics": 0.9474,
+  "cabins": null,
+  "cats": 1.0,
+  "texto": 1.0
+ },
+ "penalty": 0.0,
+ "errors": [],
+ "hints": [
+  "labels: 15/16 venue names matched. Missing: 'Whirlpool bath' at (473,250) -> room r149 is there: give it this name (./pl set 19 r149 --name ...)"
+ ]
+}

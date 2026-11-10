@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Entry point for the deck plan tools. Usage: ./pl -h
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PYTHONWARNINGS=ignore
+exec uv run --quiet --project "$DIR" python "$DIR/tools/cli.py" "$@"

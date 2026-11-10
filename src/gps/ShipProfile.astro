@@ -1,0 +1,57 @@
+---
+// Side view of the ship (bow on the right), with one band per deck.
+// Vista lateral do navio (proa à direita), com uma faixa para cada deck.
+// `botoes`: cada faixa vira um botão de escolher o deck (data-deck-btn).
+// O conteúdo do slot entra por cima do desenho, dentro do mesmo SVG.
+import { DECKS } from './lib/rotas';
+import { TEXTOS, type Lang } from './i18n/strings';
+
+interface Props {
+  ativo?: number;
+  botoes?: boolean;
+  lang?: Lang;
+}
+const { ativo, botoes = false, lang = 'en' } = Astro.props;
+const t = TEXTOS[lang];
+
+// x = [popa, proa] de cada deck.
+const PERFIL: Record<number, [number, number]> = {
+  5: [12, 384], 6: [12, 386], 7: [12, 386], 8: [16, 382], 9: [18, 380], 10: [20, 378], 11: [22, 375],
+  12: [26, 372], 13: [30, 369], 14: [34, 366], 15: [46, 352], 16: [58, 346], 18: [84, 330], 19: [104, 318],
+};
+const BASE = 200;
+const PASSO = 12.5;
+const ALT = 11;
+const faixas = [...DECKS]
+  .reverse()
+  .map((n, i) => {
+    const [x1, x2] = PERFIL[n];
+    return { n, x: x1, w: x2 - x1, y: BASE - (i + 1) * PASSO, cabines: n >= 8 && n <= 14 };
+  });
+const deck7 = faixas.find((f) => f.n === 7)!;
+const deck19 = faixas.find((f) => f.n === 19)!;
+const botes = Array.from({ length: 9 }, (_, i) => 70 + i * 26);
+---
+
+<svg class:list={['perfil-svg', { 'pf-fixo': !botoes }]} viewBox="0 0 400 240" aria-hidden="true">
+  <rect class="pf-mar" x="0" y="222" width="400" height="18"></rect>
+  <path class="pf-chamine" d={`M150 ${deck19.y} L156 ${deck19.y - 17} H190 L194 ${deck19.y} Z`}></path>
+  <path class="pf-tobog" d={`M110 ${deck19.y} C 104 ${deck19.y - 8}, 122 ${deck19.y - 9}, 116 ${deck19.y - 16} M128 ${deck19.y} C 134 ${deck19.y - 6}, 118 ${deck19.y - 10}, 126 ${deck19.y - 15}`}></path>
+  {
+    faixas.map((f) => (
+      <g class:list={['pf-deck', { 'pf-cab': f.cabines, ativo: f.n === ativo }]} data-pf={f.n} data-deck-btn={botoes ? f.n : undefined}>
+        <rect x={f.x} y={f.y} width={f.w} height={ALT} rx="2.5" />
+        <line class="pf-jan" x1={f.x + 8} x2={f.x + f.w - 24} y1={f.y + ALT / 2} y2={f.y + ALT / 2} />
+        <text x={f.x + f.w - 5} y={f.y + 8.2} text-anchor="end">{f.n}</text>
+      </g>
+    ))
+  }
+  <g class="pf-botes">
+    {botes.map((x) => <rect x={x} y={deck7.y + 2.5} width="19" height="6" rx="3" />)}
+  </g>
+  <path class="pf-casco" d={`M4 ${BASE} H396 C 392 210 386 220 376 230 H 28 C 16 226 8 214 4 ${BASE} Z`}></path>
+  <path class="pf-onda" d="M0 224 q 10 -3 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0"></path>
+  <text class="pf-rot" x="10" y="236">{t.popa}</text>
+  <text class="pf-rot" x="390" y="236" text-anchor="end">{t.proa}</text>
+  <slot />
+</svg>

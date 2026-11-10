@@ -1,0 +1,8 @@
+.venv/
+cache/
+out/
+__pycache__/
+*.bak-*
+backup-*.json
+deck-*-backup-*.json
+ref/

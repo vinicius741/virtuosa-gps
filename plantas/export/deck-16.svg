@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 3518" class="planta-svg" data-deck="16">
+<polygon class="pl-casco" points="238,0 138,12 118,17 100,25 84,36 64,59 54,80 49,102 49,869 26,879 17,890 14,901 15,917 20,928 29,936 49,944 49,1259 42,1562 40,1568 30,1569 16,1575 8,1584 4,1596 5,1616 12,1630 19,1636 40,1644 39,1697 20,1705 13,1712 8,1723 8,1742 12,1751 21,1760 38,1767 37,1990 8,2020 0,2071 0,2160 9,2214 36,2240 49,3035 49,3470 55,3490 61,3497 80,3504 236,3517 364,3517 461,3510 528,3502 542,3493 550,3470 550,3031 562,2241 590,2214 599,2160 599,2071 591,2020 562,1990 561,1767 578,1760 585,1754 591,1742 591,1723 581,1706 569,1699 560,1697 559,1643 572,1640 586,1631 594,1616 595,1598 593,1589 584,1576 575,1571 557,1567 550,1262 550,944 570,936 578,929 584,917 585,902 583,893 574,880 550,869 550,103 543,75 533,56 515,36 491,21 466,13 406,4 361,0" fill="#faf8f3" stroke="#0b1f3a" stroke-width="3"/>
+<polygon class="pl-lugar" data-id="r5" data-cat="circulacao" data-nome="" points="556,2370 500,2370 500,2500 100,2499 263,2500 263,2596 147,2596 147,2580 99,2579 98,2370 43,2370 53,3025 54,3473 61,3490 67,3495 77,3499 87,3500 89,3036 511,3038 513,3500 522,3499 532,3495 538,3490 545,3473 546,3021" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r156" data-cat="piscina" data-nome="Deck de sol" points="135,1101 125,1104 121,1107 117,1113 115,1121 115,1735 117,1751 123,1760 136,1765 464,1765 473,1761 480,1755 482,1751 484,1735 484,1121 482,1113 478,1107 466,1101" fill="#d4eafa" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r83" data-cat="esporte" data-nome="MSC Gym powered by Technogym" points="450,1904 430,1895 420,1893 390,1892 360,1901 330,1916 310,1921 290,1921 270,1917 250,1905 220,1895 200,1892 180,1893 160,1898 140,1909 120,1929 110,1945 97,1975 98,2499 500,2500 501,1965 494,1960 490,1949 480,1931 470,1919" fill="#d9f0e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r152" data-cat="piscina" data-nome="Solarium" points="32,891 43,892 50,899 50,914 43,921 30,922 26,918 25,920 21,918 24,925 32,932 40,936 54,939 65,937 66,941 76,955 73,960 70,960 60,945 53,943 53,997 107,998 109,1000 490,1000 493,997 546,997 546,943 544,940 559,936 570,930 577,922 579,916 576,915 577,903 574,898 575,917 563,922 552,918 541,898 563,891 574,895 574,898 576,895 579,897 578,893 570,883 559,877 547,874 545,872 546,700 53,700 54,872 52,874 40,877 29,883 22,891 21,895 29,889" fill="#d4eafa" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r151" data-cat="restrito" data-nome="" points="354,675 355,680 376,680 375,660 356,660 354,665 345,664 346,642 354,642 355,646 376,646 376,628 355,628 353,633 347,633 345,631 345,611 354,610 355,615 376,615 376,597 355,597 354,601 346,601 346,586 449,586 449,158 440,157 440,149 442,146 440,143 440,138 442,136 443,114 380,117 300,112 246,112 243,114 246,127 242,138 234,149 241,161 190,161 170,156 158,156 149,158 149,585 246,585 246,558 331,558 331,590 327,590 327,680 345,680 346,675" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r167" data-cat="show" data-nome="Horizon Amphitheatre" points="89,3036 87,3360 513,3360 511,3038" fill="#ffe3d8" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r153" data-cat="circulacao" data-nome="" points="83,1091 83,1035 53,1035 52,1306 46,1568 86,1568 87,1112 118,1112 125,1104 135,1101 466,1101 474,1104 481,1112 513,1112 514,1568 553,1568 546,1257 546,1035 530,1035 529,1092 526,1091 526,1035 516,1035 516,1091 513,1092 512,1035 491,1035 489,1030 489,1020 494,1020 494,1031 546,1031 546,1001 109,1000 109,1034 87,1035 87,1091" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r170" data-cat="circulacao" data-nome="" points="557,1801 512,1800 512,1748 482,1748 477,1759 464,1765 136,1765 123,1760 117,1751 117,1748 88,1748 88,1800 42,1801 41,1950 97,1950 97,1975 110,1945 120,1929 140,1909 160,1898 190,1892 220,1895 250,1905 270,1917 290,1921 310,1921 320,1919 340,1912 360,1901 380,1894 390,1892 420,1893 430,1895 450,1904 470,1919 480,1931 490,1949 494,1960 501,1965 501,1950 558,1950" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r168" data-cat="piscina" data-nome="Deck de sol" points="220,3512 331,3514 423,3509 513,3500 513,3360 87,3360 87,3500" fill="#d4eafa" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r164" data-cat="esporte" data-nome="Sportplex" points="99,2932 263,2928 263,2596 147,2596 147,2593 99,2592" fill="#d9f0e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r148" data-cat="restrito" data-nome="Top Sail Lounge (Yacht Club)" points="75,105 78,115 76,121 80,132 104,150 116,155 170,156 190,161 241,161 234,149 242,138 246,127 243,114 246,112 300,112 380,117 443,108 442,156 531,156 532,141 537,135 529,116 517,108 486,94 471,94 479,92 477,82 471,80 471,88 465,89 462,86 458,90 452,90 450,88 451,85 461,81 460,77 451,77 445,69 441,77 435,84 427,85 424,80 426,64 432,60 426,53 409,68 411,72 408,78 399,78 385,73 383,67 386,64 382,58 382,54 385,50 380,45 378,46 375,40 192,38 160,48 144,56 142,61 143,69 149,70 151,76 141,76 138,80 135,79 129,87 125,97 110,94 92,95 86,103" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r160" data-cat="esporte" data-nome="Power Walking Track" points="501,1950 500,2370 560,2370 561,2245 562,2239 588,2214 590,2205 598,2159 597,2066 590,2021 587,2016 562,1993 561,1950" fill="#d9f0e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r158" data-cat="esporte" data-nome="Power Walking Track" points="38,1950 37,1993 17,2011 9,2021 1,2075 1,2159 11,2214 32,2234 37,2240 38,2245 39,2370 98,2370 97,1950" fill="#d9f0e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r166" data-cat="bar" data-nome="Sports Bar" points="295,2737 295,2905 447,2906 449,2737" fill="#efe6fb" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r16" data-cat="restrito" data-nome="" points="172,164 172,393 232,393 232,313 247,312 247,164" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r163" data-cat="esporte" data-nome="MSC Formula Racer" points="294,2595 293,2737 404,2737 404,2595" fill="#d9f0e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r165" data-cat="esporte" data-nome="Bowling" points="447,2596 452,2917 496,2917 496,2596" fill="#d9f0e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r80" data-cat="circulacao" data-nome="" points="218,1791 219,1788 225,1789 226,1792 151,1815 448,1815 446,1814 447,1811 458,1814 458,1768 411,1782 410,1779 413,1777 449,1767 320,1767 319,1765 280,1765 279,1767 150,1767 165,1771 165,1775 141,1768 141,1814" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r171" data-cat="circulacao" data-nome="Elevadores" points="166,2152 283,2152 283,2039 166,2039" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r172" data-cat="circulacao" data-nome="Elevadores" points="316,2152 428,2152 428,2039 313,2039" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r53" data-cat="circulacao" data-nome="Elevadores" points="215,589 215,690 274,690 276,692 323,692 325,690 384,690 384,590 349,590 349,597 351,597 354,593 378,594 380,596 378,619 354,619 352,618 351,614 349,615 349,628 351,628 354,624 378,625 380,626 378,650 354,650 351,647 349,647 349,660 351,660 354,656 379,658 380,682 354,684 351,680 349,680 347,684 329,684 327,682 327,590 254,587 254,590 252,591 249,589" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r169" data-cat="restrito" data-nome="" points="430,658 402,694 323,693 323,692 190,694 180,658 53,658 53,700 546,700 546,658" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r161" data-cat="esporte" data-nome="Virtual Games Arcade" points="293,2186 294,2400 349,2400 352,2186" fill="#d9f0e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r149" data-cat="restrito" data-nome="Concierge (Yacht Club)" points="250,425 336,427 338,300 253,305" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r122" data-cat="circulacao" data-nome="" points="99,2499 99,2573 144,2573 144,2548 263,2547 263,2500" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r143" data-cat="piscina" data-nome="Horizon Pool" points="250,3396 250,3483 349,3483 349,3396" fill="#8ecdf2" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r123" data-cat="esporte" data-nome="XD Interactive Cinema" points="294,2501 294,2595 365,2595 365,2501" fill="#d9f0e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r173" data-cat="circulacao" data-nome="Escadas" points="172,2263 257,2263 257,2186 172,2186" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r174" data-cat="circulacao" data-nome="Escadas" points="428,2264 430,2178 346,2186 352,2186 351,2264" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r4" data-cat="circulacao" data-nome="" points="83,104 112,71 131,57 137,54 141,55 165,43 192,35 223,30 375,29 404,32 425,37 451,47 476,62 492,75 508,92 521,111 525,113 521,105 504,81 482,59 460,43 440,32 411,22 385,17 339,13 256,13 228,15 194,20 162,30 135,45 105,69 78,104" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r178" data-cat="circulacao" data-nome="" points="150,2548 263,2548 263,2596 150,2596" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r175" data-cat="circulacao" data-nome="Escadas" points="304,2499 349,2499 349,2403 304,2404" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r162" data-cat="esporte" data-nome="Hologate Arena" points="365,2544 365,2592 452,2591 452,2545" fill="#d9f0e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r52" data-cat="circulacao" data-nome="" points="148,591 148,649 211,649 210,589 150,589" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r55" data-cat="circulacao" data-nome="" points="388,590 388,649 450,649 450,590" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r31" data-cat="circulacao" data-nome="" points="172,419 172,448 187,448 188,456 194,457 194,466 189,467 189,485 208,485 208,467 204,466 205,456 226,456 227,466 223,467 223,485 242,485 242,468 235,466 235,458 237,456 241,456 242,448 248,447 247,432 240,432 238,424 226,424 225,419" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r58" data-cat="circulacao" data-nome="" points="460,599 460,632 484,632 485,653 497,653 498,646 510,646 511,633 530,633 530,599" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r57" data-cat="circulacao" data-nome="" points="68,599 68,632 88,633 89,646 100,646 101,653 113,653 114,632 138,632 138,599" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r154" data-cat="circulacao" data-nome="" points="44,1643 44,1697 54,1698 65,1704 75,1716 75,1725 84,1725 84,1718 86,1718 86,1643" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r155" data-cat="circulacao" data-nome="" points="516,1718 516,1725 525,1725 525,1717 535,1704 546,1698 555,1697 555,1644 514,1643 514,1718" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r1" data-cat="circulacao" data-nome="" points="57,137 74,101 93,75 121,49 147,32 179,19 208,13 251,9 293,8 345,9 388,13 421,20 456,35 481,52 506,76 527,106 541,137 524,98 511,78 483,48 464,34 440,21 404,9 372,5 331,3 267,3 205,7 183,12 156,22 128,38 114,49 96,67 74,98" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r150" data-cat="restrito" data-nome="MSC Yacht Club" points="252,585 254,587 331,590 331,558 246,558 246,585" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r3" data-cat="circulacao" data-nome="" points="428,12 447,19 465,29 482,41 504,62 529,97 540,120 546,139 546,106 543,90 535,69 523,51 507,36 486,24 468,18" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r2" data-cat="circulacao" data-nome="" points="170,12 135,17 113,24 92,36 75,52 65,67 57,86 53,105 53,136 67,101 82,77 95,61 115,42 133,29 158,16" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r76" data-cat="circulacao" data-nome="" points="17,1715 16,1718 25,1713 35,1714 43,1720 46,1726 46,1735 44,1740 34,1748 23,1748 14,1741 15,1746 24,1756 41,1762 84,1762 84,1746 75,1746 76,1750 71,1750 71,1719 61,1707 54,1703 43,1701 26,1707" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r77" data-cat="circulacao" data-nome="" points="583,1716 573,1707 556,1701 546,1703 539,1707 529,1719 529,1750 525,1751 525,1746 516,1746 516,1762 558,1762 575,1756 581,1751 586,1740 577,1748 565,1748 561,1746 554,1737 554,1725 556,1721 564,1714 574,1713 580,1715 584,1719" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r13" data-cat="circulacao" data-nome="" points="379,158 360,158 352,169 349,169 342,163 338,173 351,174 351,226 337,227 340,234 340,242 348,243 348,265 334,266 334,277 358,277 357,194 379,193" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r56" data-cat="circulacao" data-nome="" points="546,590 455,591 455,649 481,649 481,636 456,635 457,595 533,595 534,636 514,637 514,649 502,650 501,653 546,653" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r51" data-cat="circulacao" data-nome="" points="53,589 53,653 97,653 97,650 85,649 84,637 64,636 65,595 142,595 143,635 117,636 117,649 144,649 144,591 65,591 63,589" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r32" data-cat="restrito" data-nome="" points="252,425 252,551 300,551 258,550 258,526 260,524 266,524 266,501 300,500 301,504 301,494 276,493 276,453 252,452" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r45" data-cat="circulacao" data-nome="" points="179,501 179,544 193,544 194,516 198,516 210,522 220,517 227,516 228,544 242,544 241,500" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r74" data-cat="circulacao" data-nome="" points="519,1582 519,1630 555,1630 554,1581" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r73" data-cat="circulacao" data-nome="" points="45,1581 44,1630 79,1631 80,1582" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r67" data-cat="circulacao" data-nome="" points="53,1001 53,1031 105,1031 105,1001" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r40" data-cat="restrito" data-nome="" points="332,474 332,556 347,556 347,474" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r46" data-cat="circulacao" data-nome="" points="358,500 358,512 369,512 370,510 375,511 376,531 386,531 387,510 390,511 391,531 401,531 402,510 406,510 407,512 420,512 419,500" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r72" data-cat="circulacao" data-nome="" points="33,1581 27,1583 20,1589 16,1600 16,1610 22,1623 32,1629 40,1630 41,1581" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r75" data-cat="circulacao" data-nome="" points="558,1581 559,1630 563,1630 573,1626 579,1620 582,1614 583,1600 580,1591 575,1585 566,1581" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r21" data-cat="circulacao" data-nome="" points="338,297 347,301 347,348 343,350 346,358 345,378 357,377 358,297" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r146" data-cat="circulacao" data-nome="" points="380,34 362,34 361,36 356,37 355,34 347,33 227,34 203,38 373,40" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r37" data-cat="circulacao" data-nome="" points="352,452 352,491 427,490 427,452 415,452 415,459 411,461 411,463 415,464 414,489 387,488 387,464 391,463 391,461 378,461 378,463 382,464 381,489 355,489 354,464 358,463 358,461 354,460 354,452" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r177" data-cat="piscina" data-nome="Hidromassagem" points="563,891 541,898 552,918 563,922 575,917 574,895" fill="#8ecdf2" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r176" data-cat="piscina" data-nome="Hidromassagem" points="30,891 22,898 22,914 30,922 43,921 50,914 50,899 43,892" fill="#8ecdf2" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r14" data-cat="circulacao" data-nome="" points="383,193 394,193 395,168 427,168 427,158 383,158" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r38" data-cat="restrito" data-nome="" points="280,456 280,489 301,489 301,457" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r48" data-cat="restrito" data-nome="" points="262,529 262,547 301,546 301,529" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r68" data-cat="circulacao" data-nome="" points="45,1572 45,1577 77,1577 84,1579 84,1634 44,1634 44,1639 87,1639 88,1572" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r69" data-cat="circulacao" data-nome="" points="511,1572 512,1639 555,1639 555,1634 515,1634 515,1579 522,1577 554,1577 554,1573" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r47" data-cat="restrito" data-nome="" points="270,504 270,524 301,524 301,509 297,508 296,504" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r81" data-cat="circulacao" data-nome="" points="56,1769 56,1793 81,1793 81,1769" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r82" data-cat="circulacao" data-nome="" points="519,1769 520,1793 544,1793 544,1769" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r36" data-cat="circulacao" data-nome="" points="172,452 172,455 183,456 184,491 248,490 248,452 245,452 245,459 243,461 239,461 239,463 246,464 245,489 218,488 218,465 223,463 223,461 208,461 208,463 212,464 211,489 186,489 185,464 190,463 190,461 186,461 184,459 184,452" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r79" data-cat="circulacao" data-nome="" points="24,1718 17,1724 15,1733 20,1741 26,1744 31,1744 39,1739 42,1729 40,1724 35,1719" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r78" data-cat="circulacao" data-nome="" points="571,1717 562,1721 558,1727 558,1734 560,1738 568,1744 578,1742 584,1734 584,1727 582,1723" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r27" data-cat="circulacao" data-nome="" points="382,397 355,397 354,394 344,407 332,414 332,425 347,425 347,407 349,405 382,405" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r35" data-cat="circulacao" data-nome="" points="535,443 535,489 546,489 546,443" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r42" data-cat="circulacao" data-nome="" points="535,493 535,538 546,538 546,493" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r33" data-cat="restrito" data-nome="" points="256,427 256,448 278,448 280,452 286,451 285,444 268,427" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r39" data-cat="circulacao" data-nome="" points="179,459 172,459 172,570 175,570 175,498 179,496" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r15" data-cat="circulacao" data-nome="" points="535,158 535,201 546,201 546,158" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r18" data-cat="circulacao" data-nome="" points="535,206 535,249 546,249 546,206" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r20" data-cat="circulacao" data-nome="" points="535,253 535,296 546,296 546,253" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r26" data-cat="circulacao" data-nome="" points="535,348 535,391 546,391 546,348" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r23" data-cat="circulacao" data-nome="" points="536,300 535,344 546,344 546,300" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r50" data-cat="circulacao" data-nome="" points="536,542 535,586 546,586 546,542" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r34" data-cat="circulacao" data-nome="" points="53,443 53,489 63,489 63,443" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r29" data-cat="circulacao" data-nome="" points="536,395 535,438 546,439 546,395" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r41" data-cat="circulacao" data-nome="" points="53,493 53,538 63,538 63,493" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r61" data-cat="circulacao" data-nome="" points="187,669 193,690 211,690 211,669" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r22" data-cat="circulacao" data-nome="" points="53,300 53,344 63,344 63,300" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r28" data-cat="circulacao" data-nome="" points="53,395 53,439 63,439 63,395" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r12" data-cat="circulacao" data-nome="" points="53,158 53,201 63,201 63,158" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r17" data-cat="circulacao" data-nome="" points="53,206 53,249 63,249 63,206" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r19" data-cat="circulacao" data-nome="" points="53,253 53,296 63,296 63,253" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r24" data-cat="circulacao" data-nome="" points="53,348 53,391 63,391 63,348" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r49" data-cat="circulacao" data-nome="" points="53,542 53,585 63,585 63,542" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r8" data-cat="circulacao" data-nome="" points="114,154 109,152 100,152 85,144 82,146 71,146 64,141 56,141 53,154" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r60" data-cat="circulacao" data-nome="" points="388,665 418,665 428,653 481,653 388,653" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r44" data-cat="circulacao" data-nome="" points="352,495 352,556 354,556 355,496 422,496 424,498 424,571 426,571 427,495" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r62" data-cat="circulacao" data-nome="" points="388,690 399,690 415,669 388,669" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r7" data-cat="circulacao" data-nome="" points="261,129 259,134 263,134 278,149 290,170 296,192 296,215 290,236 292,238 297,225 300,206 296,177 292,166 282,149 268,134" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r30" data-cat="restrito" data-nome="" points="386,397 386,405 422,405 424,407 424,424 427,424 427,397" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r10" data-cat="circulacao" data-nome="" points="352,148 360,154 427,154 427,144 418,150 409,152 396,151 387,147 376,150 365,150 358,148 356,143" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r59" data-cat="circulacao" data-nome="" points="117,653 182,653 187,665 211,665 211,653" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r71" data-cat="circulacao" data-nome="" points="558,1573 558,1577 569,1577 576,1580 583,1587 587,1598 587,1612 583,1623 572,1632 559,1634 559,1638 563,1638 574,1634 586,1623 590,1613 591,1601 588,1589 580,1579 570,1574" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r70" data-cat="circulacao" data-nome="" points="33,1573 22,1577 13,1585 9,1594 8,1608 10,1617 19,1630 27,1635 40,1638 40,1634 33,1634 23,1630 16,1623 12,1613 12,1597 14,1590 23,1580 30,1577 41,1576 41,1573" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r43" data-cat="restrito" data-nome="" points="183,495 245,496 246,556 301,555 248,554 248,495" fill="#ebe7e0" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-lugar" data-id="r9" data-cat="circulacao" data-nome="" points="535,141 532,143 531,154 545,154 542,141" fill="#faf8f3" stroke="#0b1f3a" stroke-width="1"/>
+<polygon class="pl-cabine" data-cabine="16001" points="68,157 145,157 145,202 68,202" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16002" points="454,157 531,157 531,202 454,202" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16003" points="68,205 145,205 145,250 68,250" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16004" points="454,205 531,205 531,250 454,250" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16005" points="68,252 145,252 145,297 68,297" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16006" points="393,197 422,197 422,266 393,266" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16007" points="68,300 145,300 145,345 68,345" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16008" points="361,197 390,197 390,266 361,266" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16009" points="68,347 145,347 145,392 68,392" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16010" points="361,309 390,309 390,378 361,378" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16011" points="68,395 145,395 145,439 68,439" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16012" points="393,309 422,309 422,378 393,378" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16013" points="68,442 145,442 145,486 68,486" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16014" points="454,252 531,252 531,297 454,297" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16015" points="68,495 145,495 145,539 68,539" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16016" points="454,300 531,300 531,345 454,345" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16018" points="454,347 531,347 531,392 454,392" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16019" points="68,542 145,542 145,586 68,586" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16020" points="454,395 531,395 531,439 454,439" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16022" points="454,442 531,442 531,486 454,486" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16024" points="454,495 531,495 531,539 454,539" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<polygon class="pl-cabine" data-cabine="16026" points="454,542 531,542 531,587 454,587" fill="#f3efe8" stroke="#9aa5b5" stroke-width="0.8"/>
+<text x="192" y="100" fill="#66707f" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle">Top Sail Lounge (Yacht Club)</text>
+<text x="294" y="364" fill="#66707f" font-size="6.5" font-weight="700" text-anchor="middle" dominant-baseline="middle">Concierge (Yacht Club)</text>
+<text x="288" y="573" fill="#66707f" font-size="8.9" font-weight="700" text-anchor="middle" dominant-baseline="middle">MSC Yacht Club</text>
+<text x="300" y="850" fill="#0b4f7a" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle">Solarium</text>
+<text x="36" y="906" fill="#0b4f7a" font-size="6.5" font-weight="700" text-anchor="middle" dominant-baseline="middle">Hidromassagem</text>
+<text x="560" y="906" fill="#0b4f7a" font-size="6.5" font-weight="700" text-anchor="middle" dominant-baseline="middle">Hidromassagem</text>
+<text x="300" y="1433" fill="#0b4f7a" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle">Deck de sol</text>
+<text x="299" y="1979" fill="#1d6b3c" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle">MSC Gym powered by Technogym</text>
+<text x="49" y="2160" fill="#1d6b3c" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 49 2160)">Power Walking Track</text>
+<text x="549" y="2160" fill="#1d6b3c" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 549 2160)">Power Walking Track</text>
+<text x="322" y="2293" fill="#1d6b3c" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 322 2293)">Virtual Games Arcade</text>
+<text x="330" y="2548" fill="#1d6b3c" font-size="6.5" font-weight="700" text-anchor="middle" dominant-baseline="middle">XD Interactive Cinema</text>
+<text x="408" y="2568" fill="#1d6b3c" font-size="9.1" font-weight="700" text-anchor="middle" dominant-baseline="middle">Hologate Arena</text>
+<text x="181" y="2763" fill="#1d6b3c" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle">Sportplex</text>
+<text x="349" y="2666" fill="#1d6b3c" font-size="9.7" font-weight="700" text-anchor="middle" dominant-baseline="middle">MSC Formula Racer</text>
+<text x="472" y="2756" fill="#1d6b3c" font-size="9.1" font-weight="700" text-anchor="middle" dominant-baseline="middle">Bowling</text>
+<text x="372" y="2821" fill="#4b2a8a" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle">Sports Bar</text>
+<text x="300" y="3198" fill="#8a2c10" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle">Horizon Amphitheatre</text>
+<text x="431" y="3434" fill="#0b4f7a" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle">Deck de sol</text>
+<text x="300" y="3440" fill="#0b4f7a" font-size="11.0" font-weight="700" text-anchor="middle" dominant-baseline="middle">Horizon Pool</text>
+<text x="106" y="180" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16001</text>
+<text x="492" y="180" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16002</text>
+<text x="106" y="228" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16003</text>
+<text x="492" y="228" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16004</text>
+<text x="106" y="274" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16005</text>
+<text x="408" y="232" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16006</text>
+<text x="106" y="322" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16007</text>
+<text x="376" y="232" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16008</text>
+<text x="106" y="370" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16009</text>
+<text x="376" y="344" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16010</text>
+<text x="106" y="417" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16011</text>
+<text x="408" y="344" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16012</text>
+<text x="106" y="464" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16013</text>
+<text x="492" y="274" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16014</text>
+<text x="106" y="517" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16015</text>
+<text x="492" y="322" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16016</text>
+<text x="492" y="370" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16018</text>
+<text x="106" y="564" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16019</text>
+<text x="492" y="417" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16020</text>
+<text x="492" y="464" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16022</text>
+<text x="492" y="517" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16024</text>
+<text x="492" y="564" fill="#33415a" font-size="8" text-anchor="middle" dominant-baseline="middle">16026</text>
+</svg>

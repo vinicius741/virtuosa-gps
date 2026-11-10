@@ -1,0 +1,20 @@
+{
+ "deck": 5,
+ "total": 97.64,
+ "parts": {
+  "hull": 0.9997,
+  "edges": 0.9584,
+  "cover": 1.0,
+  "labels": 1.0,
+  "semantics": 1.0,
+  "cabins": 1.0,
+  "cats": 1.0,
+  "texto": 1.0
+ },
+ "penalty": 2.0,
+ "errors": [],
+ "hints": [
+  "info: 134 cabins in the spec; numbers between 5001 and 5165 not present: 31 (some numbers are simply not used on the ship - only add a cabin if you SEE it in ./pl view)",
+  "overlap: these rooms partly overlap (merge them, or fix one outline): r12+r19 r13+r20"
+ ]
+}

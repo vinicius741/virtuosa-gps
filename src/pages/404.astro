@@ -1,0 +1,16 @@
+---
+import Site from '../site/layouts/Site.astro';
+import { SITE } from '../site/textos';
+---
+
+<Site lang="en" title={SITE.en.naoAchou} noindex>
+  <section class="wrap section page-head">
+    <h1>{SITE.en.naoAchou}</h1>
+    <p>{SITE.en.naoAchouTexto}</p>
+    <p lang="pt-BR" class="muted">{SITE.pt.naoAchou}. {SITE.pt.naoAchouTexto}</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/">{SITE.en.voltar}</a>
+      <a class="btn btn-ghost" href="/pt/" lang="pt-BR">{SITE.pt.voltar}</a>
+    </div>
+  </section>
+</Site>

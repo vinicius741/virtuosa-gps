@@ -1,0 +1,73 @@
+---
+// The GPS page, the same in both languages.
+import Site from './layouts/Site.astro';
+import Gps from '../gps/Gps.astro';
+import Icon from '../gps/Icon.astro';
+import { SITE, REPO } from './textos';
+import type { Lang } from '../gps/i18n/strings';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = SITE[lang];
+const outro = lang === 'en' ? 'pt' : 'en';
+---
+
+<Site lang={lang}>
+  <section class="wrap section page-head">
+    <span class="eyebrow">{t.eyebrow}</span>
+    <h1>{t.h1}</h1>
+    <p class="muted">{t.lead}</p>
+    <p class="lang-sugestao" data-sugestao={outro} hidden>
+      <span>{t.sugestao} <a href={SITE[outro].caminho} data-lang-link={outro} lang={SITE[outro].htmlLang}>{t.sugestaoLink}</a></span>
+      <button type="button" aria-label={t.fecharSugestao}><Icon name="close" /></button>
+    </p>
+    <Gps lang={lang} />
+  </section>
+
+  <section class="wrap section">
+    <h2>{t.sobreTitulo}</h2>
+    <div class="sobre">
+      {
+        t.sobre.map((s) => (
+          <div class="card">
+            <h3>
+              <Icon name={s.icone} /> {s.titulo}
+            </h3>
+            <p class="small">{s.texto}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="card">
+      <h2>{t.abertoTitulo}</h2>
+      <p>{t.aberto}</p>
+      <a class="btn btn-ghost" href={REPO}><Icon name="code" /> {t.verGithub}</a>
+    </div>
+  </section>
+</Site>
+
+<script>
+  // Suggests the other language when the browser uses it (once; closing it hides it for good).
+  const s = document.querySelector<HTMLElement>('[data-sugestao]');
+  if (s) {
+    const outro = s.dataset.sugestao!;
+    let escolhido: string | null = null;
+    try {
+      escolhido = localStorage.getItem('idioma');
+    } catch {}
+    const nav = (navigator.languages?.[0] ?? navigator.language ?? '').toLowerCase();
+    if (!escolhido && (outro === 'pt' ? nav.startsWith('pt') : !nav.startsWith('pt'))) s.hidden = false;
+    s.querySelector('a')!.search = location.search;
+    s.querySelector('button')!.addEventListener('click', () => {
+      s.hidden = true;
+      try {
+        localStorage.setItem('idioma', outro === 'pt' ? 'en' : 'pt');
+      } catch {}
+    });
+  }
+</script>

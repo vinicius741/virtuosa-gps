@@ -1,0 +1,21 @@
+{
+ "deck": 16,
+ "total": 98.34,
+ "parts": {
+  "hull": 0.9991,
+  "edges": 0.8983,
+  "cover": 1.0,
+  "labels": 1.0,
+  "semantics": 0.9643,
+  "cabins": 1.0,
+  "cats": 1.0,
+  "texto": 1.0
+ },
+ "penalty": 0.0,
+ "errors": [],
+ "hints": [
+  "edges: these rooms have outlines that do not follow walls (fix or redraw them): r166 (32%), r164 (41%), r168 (50%), r169 (52%), r163 (54%), r150 (54%)",
+  "corridors: these unnamed rooms look like corridors (long and thin, or next to many cabins) -> cat circulacao (check with ./pl view; if one is really something else, give it a name): r151",
+  "info: 22 cabins in the spec; numbers between 16001 and 16026 not present: 4 (some numbers are simply not used on the ship - only add a cabin if you SEE it in ./pl view)"
+ ]
+}

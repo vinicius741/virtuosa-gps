@@ -1,0 +1,20 @@
+{
+ "deck": 7,
+ "total": 95.57,
+ "parts": {
+  "hull": 0.9996,
+  "edges": 0.8714,
+  "cover": 1.0,
+  "labels": 1.0,
+  "semantics": 1.0,
+  "cabins": null,
+  "cats": 1.0,
+  "texto": 1.0
+ },
+ "penalty": 3.0,
+ "errors": [],
+ "hints": [
+  "edges: these rooms have outlines that do not follow walls (fix or redraw them): r185 (21%), r184 (32%), r85 (34%), r75 (38%), r180 (39%), r186 (41%)",
+  "overlap: these rooms partly overlap (merge them, or fix one outline): r8+r123 r8+r185 r185+r90"
+ ]
+}

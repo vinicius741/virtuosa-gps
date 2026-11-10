@@ -1,0 +1,98 @@
+---
+// Page shell of the public site: <head>, header with the language switch, footer.
+import '../styles/site.css';
+import '../../gps/styles.css';
+import Icon from '../../gps/Icon.astro';
+import { SITE, REPO } from '../textos';
+import type { Lang } from '../../gps/i18n/strings';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  noindex?: boolean;
+}
+const { lang, title, noindex = false } = Astro.props;
+const t = SITE[lang];
+const outro = lang === 'en' ? 'pt' : 'en';
+const fullTitle = title ? `${title} · Virtuosa GPS` : t.titulo;
+const url = (l: Lang) => new URL(SITE[l].caminho, Astro.site).href;
+const ogImage = new URL('/og.png', Astro.site).href;
+---
+
+<!doctype html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={t.descricao} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={url(lang)} />}
+    <link rel="alternate" hreflang="en" href={url('en')} />
+    <link rel="alternate" hreflang="pt-BR" href={url('pt')} />
+    <link rel="alternate" hreflang="x-default" href={url('en')} />
+    <meta name="theme-color" content="#0b1f3a" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Virtuosa GPS" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={t.ogLocale} />
+    <meta property="og:site_name" content="Virtuosa GPS" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={t.descricao} />
+    <meta property="og:url" content={url(lang)} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap">
+        <a class="brand" href={t.caminho}>
+          <span class="brand-mark"><Icon name="navigation" /></span>
+          <span>{t.marca[0]} <b>{t.marca[1]}</b></span>
+        </a>
+        <nav class="lang-switch" aria-label="Language / Idioma">
+          <a href="/" hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined} data-lang-link="en">EN</a>
+          <a href="/pt/" hreflang="pt-BR" lang="pt-BR" aria-current={lang === 'pt' ? 'true' : undefined} data-lang-link="pt">PT</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="rodape">
+      <div class="wrap">
+        <p>{t.feitoPor}</p>
+        <p>
+          <a href={REPO}>GitHub</a> · <a href={`${REPO}/blob/main/LICENSE`}>{t.licenca}</a> ·
+          <a href={SITE[outro].caminho} hreflang={SITE[outro].htmlLang} lang={SITE[outro].htmlLang}>{outro === 'pt' ? 'Português' : 'English'}</a>
+        </p>
+        <p class="aviso-legal">{t.aviso}</p>
+      </div>
+    </footer>
+    <script>
+      // Keeps the URL (route and favorites) when switching language.
+      document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]').forEach((a) =>
+        a.addEventListener('click', () => {
+          try {
+            localStorage.setItem('idioma', a.dataset.langLink!);
+          } catch {}
+          a.search = location.search;
+        }),
+      );
+      if ('serviceWorker' in navigator && location.hostname !== 'localhost') {
+        addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+      }
+    </script>
+  </body>
+</html>
