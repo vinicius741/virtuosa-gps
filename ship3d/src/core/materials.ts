@@ -135,11 +135,14 @@ function poolWater(): THREE.ShaderMaterial {
         for (int n = 0; n < 4; n++) {
           float tt = t * (1.0 - 3.5 / float(n + 1));
           i = p + vec2(cos(tt - i.x) + sin(tt + i.y), sin(tt - i.y) + cos(tt + i.x));
-          c += 1.0 / length(vec2(p.x / (sin(i.x + tt) / 0.005), p.y / (cos(i.y + tt) / 0.005)));
+          // kept finite: where the sines cross zero this would divide by zero
+          vec2 w = vec2(sin(i.x + tt), cos(i.y + tt));
+          w = sign(w + 1e-6) * max(abs(w), 1e-4) / 0.005;
+          c += 1.0 / max(length(p / w), 1e-4);
         }
         c /= 4.0;
-        c = 1.17 - pow(c, 1.4);
-        return pow(abs(c), 8.0);
+        c = 1.17 - pow(clamp(c, 0.0001, 4.0), 1.4);
+        return min(pow(abs(c), 8.0), 1.5);
       }
       void main() {
         #include <clipping_planes_fragment>
@@ -154,10 +157,10 @@ function poolWater(): THREE.ShaderMaterial {
         col += vec3(0.75, 1.0, 1.0) * c * 0.55 * day * uSun;
         // lights under the water after dark
         col += vec3(0.05, 0.62, 0.8) * (0.55 + 0.6 * c) * uNight * 0.9;
-        float fres = 0.03 + 0.97 * pow(1.0 - max(dot(N, V), 0.0), 5.0);
+        float fres = 0.03 + 0.97 * pow(clamp(1.0 - dot(N, V), 0.0, 1.0), 5.0);
         col = mix(col * uGain, uSky * mix(0.5, 1.0, vOpen), fres * 0.8);
         vec3 H = normalize(V + uLightDir);
-        col += uSun * uGain * pow(max(dot(N, H), 0.0), 420.0) * 9.0 * day * vOpen;
+        col += uSun * uGain * pow(clamp(dot(N, H), 0.0, 1.0), 420.0) * 9.0 * day * vOpen;
         gl_FragColor = vec4(col, 1.0);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>

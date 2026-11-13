@@ -131,8 +131,10 @@ const WAVES = /* glsl */ `
 
   // Half-breadth of the hull at the waterline, ship centred on x = 0
   float hullHalf(float x) {
-    float t = clamp((x - 68.0) / 88.5, 0.0, 1.0);
-    float bow = pow(max(1.0 - pow(t, 1.9), 0.0), 0.85);
+    // pow() of zero and exp() of a huge number are left to the driver: phones return NaN or
+    // infinity where desktops are forgiving, and one NaN vertex drops every triangle around it
+    float t = clamp((x - 68.0) / 88.5, 0.0001, 1.0);
+    float bow = pow(max(1.0 - pow(t, 1.9), 0.0001), 0.85);
     float stern = 0.9 + 0.1 * smoothstep(-164.0, -120.0, x);
     return 21.5 * bow * stern;
   }
@@ -160,13 +162,14 @@ const VERT = /* glsl */ `
     // bow wave: a ridge running aft along two arms from the stem
     float back = 157.0 - p.x;
     float arm = abs(p.z) - (hullHalf(p.x) * step(0.0, back) + max(back, 0.0) * 0.21);
-    float ridge = exp(-arm * arm / (9.0 + back * 0.35)) * exp(-max(back, 0.0) / 190.0) * step(-4.0, back);
+    float aft = max(back, 0.0);
+    float ridge = exp(-min(arm * arm / (9.0 + aft * 0.35), 60.0)) * exp(-aft / 190.0) * step(-4.0, back);
     d.y += ridge * 1.25 * (0.75 + 0.25 * sin(q.x * 0.35));
     // the hollow just behind the bow wave, then the stern wave
     float astern = -165.5 - p.x;
     float wakeHalf = 19.0 + max(astern, 0.0) * 0.075;
     float inWake = step(0.0, astern) * (1.0 - smoothstep(wakeHalf - 4.0, wakeHalf + 8.0, abs(p.z)));
-    d.y += inWake * 0.55 * sin(astern * 0.16 - uTime * 2.2) * exp(-astern / 150.0);
+    d.y += inWake * 0.55 * sin(astern * 0.16 - uTime * 2.2) * exp(-max(astern, 0.0) / 150.0);
     vCrest = d.y;
     p += d * (0.15 + 0.85 * vFade);
     vWorld = p;
@@ -194,7 +197,8 @@ const FRAG = /* glsl */ `
   // Does the mirrored view ray hit the ship? A cheap stand-in for a real reflection pass:
   // two boxes, the hull and the superstructure.
   float boxHit(vec3 ro, vec3 rd, vec3 mn, vec3 mx, out vec3 n) {
-    vec3 inv = 1.0 / rd;
+    // a ray exactly along an axis would divide by zero
+    vec3 inv = 1.0 / (rd + step(abs(rd), vec3(1e-5)) * 1e-5);
     vec3 t0 = (mn - ro) * inv;
     vec3 t1 = (mx - ro) * inv;
     vec3 tmin = min(t0, t1);
@@ -236,27 +240,27 @@ const FRAG = /* glsl */ `
     float armZ = half_ * step(0.0, back) + max(back, 0.0) * 0.21;
     float armD = abs(z) - armZ;
     float armW = 2.5 + max(back, 0.0) * 0.05;
-    float arm = exp(-armD * armD / (armW * armW)) * exp(-max(back, 0.0) / 150.0) * step(-3.0, back);
+    float arm = exp(-min(armD * armD / (armW * armW), 60.0)) * exp(-max(back, 0.0) / 150.0) * step(-3.0, back);
     // churned water behind the propellers, a long fading trail
     float astern = -165.5 - x;
     float wakeHalf = 18.0 + max(astern, 0.0) * 0.07;
     float inWake = step(-2.0, astern) * (1.0 - smoothstep(wakeHalf - 5.0, wakeHalf + 3.0, abs(z)));
     float trail = inWake * exp(-max(astern, 0.0) / 520.0);
-    float edge = step(0.0, astern) * exp(-pow((abs(z) - wakeHalf) / 3.5, 2.0)) * exp(-astern / 380.0);
+    float edgeD = (abs(z) - wakeHalf) / 3.5;
+    float edge = step(0.0, astern) * exp(-min(edgeD * edgeD, 60.0)) * exp(-max(astern, 0.0) / 380.0);
     float wash = trail * (0.35 + 0.65 * exp(-max(astern, 0.0) / 90.0));
     float foam = skirt * smoothstep(0.25, 0.75, foamNoise + skirt * 0.5)
                + arm * smoothstep(0.3, 0.8, foamNoise + arm * 0.6)
                + wash * smoothstep(0.42 - wash * 0.3, 0.85, foamNoise * 0.7 + churn * 0.6)
                + edge * smoothstep(0.35, 0.8, foamNoise);
-    // whitecaps on the steepest open-sea crests
     // a few thin whitecaps on the steepest open-sea crests
     float cap = smoothstep(0.92, 1.25, vCrest / max(uSea, 0.2) + (n2.z - 0.5) * 0.9) * smoothstep(0.55, 0.8, n3.z) * vFade;
     foam = clamp(foam + cap * 0.35, 0.0, 1.0);
     N = normalize(mix(N, vec3(0.0, 1.0, 0.0), foam * 0.5));
 
     // --- reflection
-    float NV = max(dot(N, V), 0.0);
-    float fres = 0.02 + 0.98 * pow(1.0 - NV, 5.0);
+    float NV = clamp(dot(N, V), 0.0, 1.0);
+    float fres = 0.02 + 0.98 * pow(clamp(1.0 - NV, 0.0, 1.0), 5.0);
     vec3 R = reflect(-V, N);
     R.y = abs(R.y) + 0.02;
     R = normalize(R);
@@ -300,7 +304,7 @@ const FRAG = /* glsl */ `
 
     // sun (or moon) glitter
     vec3 H = normalize(V + uLightDir);
-    float nh = max(dot(N, H), 0.0);
+    float nh = clamp(dot(N, H), 0.0, 1.0);
     float glit = pow(nh, mix(900.0, 220.0, smoothstep(100.0, 5000.0, dist))) * mix(34.0, 5.0, smoothstep(100.0, 5000.0, dist));
     glit += pow(nh, 60.0) * 0.12;
     col += uGain * uSunColor * glit * (1.0 - uNight * 0.9) * (1.0 - foam);
