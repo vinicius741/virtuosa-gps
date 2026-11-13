@@ -1,6 +1,6 @@
 {
   "name": "virtuosa-gps",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Indoor walking GPS for the MSC Virtuosa cruise ship, plus a 3D model of the ship at sea: redrawn deck plans, route data, a bilingual (EN/PT-BR) Astro component and a three.js scene. Works offline.",
   "license": "MIT",
   "type": "module",
@@ -33,7 +33,8 @@
     "./strings": "./src/gps/i18n/strings.ts",
     "./integration": "./integration.mjs",
     "./data/*": "./public/plantas/*",
-    "./ship3d": "./ship3d/src/index.ts"
+    "./ship3d": "./ship3d/src/index.ts",
+    "./ship3d/texts": "./ship3d/src/ui/texts.ts"
   },
   "files": [
     "src/gps",

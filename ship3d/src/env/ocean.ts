@@ -146,6 +146,9 @@ const VERT = /* glsl */ `
   varying vec2 vSea;
   varying float vFade;
   varying float vCrest;
+  #ifdef LITE
+  varying vec2 vSlope;
+  #endif
 
   void main() {
     vec3 p = position;
@@ -180,6 +183,9 @@ const VERT = /* glsl */ `
     p += d * (0.15 + 0.85 * vFade);
     vWorld = p;
     vSea = q;
+    #ifdef LITE
+    vSlope = slope * (0.15 + 0.85 * vFade);
+    #endif
     gl_Position = projectionMatrix * viewMatrix * vec4(p, 1.0);
   }
 `;
@@ -199,6 +205,9 @@ const FRAG = /* glsl */ `
   varying vec2 vSea;
   varying float vFade;
   varying float vCrest;
+  #ifdef LITE
+  varying vec2 vSlope;
+  #endif
 
   // Does the mirrored view ray hit the ship? A cheap stand-in for a real reflection pass:
   // two boxes, the hull and the superstructure.
@@ -218,15 +227,25 @@ const FRAG = /* glsl */ `
   void main() {
     vec3 V = normalize(cameraPosition - vWorld);
     float dist = length(cameraPosition - vWorld);
+    // LITE (weak phones): the swell's slope comes from the vertices instead of being summed
+    // again for every pixel, one layer of ripples is dropped and the ship is not mirrored
+    #ifdef LITE
+    vec2 slope = vSlope;
+    #else
     vec2 slope;
     gerstner(vSea, vFade, slope);
     slope *= 0.15 + 0.85 * vFade;
+    #endif
 
     // small ripples: three layers of the noise texture sliding over each other
     float t = uTime;
     vec4 n1 = texture2D(uNoise, vSea * 0.021 + vec2(-t * 0.012, t * 0.008));
     vec4 n2 = texture2D(uNoise, vSea * 0.067 + vec2(t * 0.021, t * 0.017));
+    #ifdef LITE
+    vec4 n3 = n2.yxzw;
+    #else
     vec4 n3 = texture2D(uNoise, vSea * 0.23 + vec2(-t * 0.05, -t * 0.036));
+    #endif
     float rip = 1.0 - smoothstep(60.0, 1400.0, dist) * 0.72;
     vec2 detail = ((n1.xy - 0.5) * 0.85 + (n2.xy - 0.5) * 0.6 + (n3.xy - 0.5) * 0.4 * rip) * (0.5 + 0.5 * uSea);
     vec3 N = normalize(vec3(-slope.x - detail.x * 0.9, 1.0, -slope.y - detail.y * 0.9));
@@ -256,7 +275,11 @@ const FRAG = /* glsl */ `
     float edge = step(0.0, astern) * exp(-min(edgeD * edgeD, 60.0)) * exp(-max(astern, 0.0) / 380.0);
     float wash = trail * (0.35 + 0.65 * exp(-max(astern, 0.0) / 90.0));
     // long streaks drawn out by the ship's speed, so the wake is ropes of foam and not a sheet
+    #ifdef LITE
+    float streak = churn;
+    #else
     float streak = texture2D(uNoise, vec2(vSea.x * 0.0045, z * 0.055 + 0.3)).z;
+    #endif
     // white water boiling up right behind the transom
     float boil = step(-2.5, astern) * exp(-max(astern, 0.0) / 16.0) * (1.0 - smoothstep(15.0, 20.5, abs(z)));
     float foam = skirt * smoothstep(0.25, 0.75, foamNoise + skirt * 0.5)
@@ -281,9 +304,10 @@ const FRAG = /* glsl */ `
     refl = min(refl, vec3(6.0));
 
     // the ship mirrored in the water beside it
+    float lit = max(dot(uLightDir, vec3(0.0, 1.0, 0.0)), 0.0);
+    #ifndef LITE
     vec3 bn;
     vec3 ro = vWorld + vec3(0.0, 0.05, 0.0);
-    float lit = max(dot(uLightDir, vec3(0.0, 1.0, 0.0)), 0.0);
     vec3 shipLight = uGain * uSunColor * 2.6 * (1.0 - uNight) + vec3(0.35, 0.42, 0.5) * (1.0 - uNight) + vec3(1.0, 0.72, 0.38) * uShipLights * 0.55;
     float h1 = boxHit(ro, R, vec3(-165.0, -1.0, -21.4), vec3(150.0, 20.0, 21.4), bn);
     if (h1 > 0.0) {
@@ -297,6 +321,7 @@ const FRAG = /* glsl */ `
         refl = mix(refl, band * shipLight * sunny * 0.3 + vec3(1.0, 0.7, 0.35) * uShipLights * 0.25, 0.75 * exp(-h2 / 90.0));
       }
     }
+    #endif
 
     // --- the water itself
     vec3 deep = mix(vec3(0.006, 0.045, 0.095), vec3(0.02, 0.03, 0.06), uGolden);
@@ -352,6 +377,8 @@ export class Ocean {
   constructor(
     private env: Environment,
     lowPower: boolean,
+    /** the cheapest sea, for phones that struggle (implies lowPower) */
+    lite = false,
   ) {
     const dir = (deg: number) => [Math.cos((deg * Math.PI) / 180), Math.sin((deg * Math.PI) / 180)];
     // long swell from ahead and to starboard, plus shorter wind waves on top
@@ -367,6 +394,7 @@ export class Ocean {
     this.material = new THREE.ShaderMaterial({
       vertexShader: VERT,
       fragmentShader: FRAG,
+      defines: lite ? { LITE: '' } : {},
       uniforms: {
         uWaves: { value: waves },
         uTime: { value: 0 },
@@ -383,7 +411,7 @@ export class Ocean {
         uGain: { value: 1 },
       },
     });
-    this.mesh = new THREE.Mesh(polarGrid(lowPower ? 150 : 230, lowPower ? 192 : 320), this.material);
+    this.mesh = new THREE.Mesh(lite ? polarGrid(110, 144) : polarGrid(lowPower ? 150 : 230, lowPower ? 192 : 320), this.material);
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = -2;
   }
