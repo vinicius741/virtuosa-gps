@@ -498,9 +498,12 @@ export function buildSuperstructure(parts: Parts): SuperInfo {
   {
     const y = DECK_Y[8];
     const base = dedupe(clipX(ring9, BAND_END - 14, 300));
-    // slab out to the full width, so it roofs the lifeboat recess
-    white.color(0xffffff).slab(base, y - SLAB, y, [], undefined, false);
-    deckMat.color(0x9aa9ae).poly(base, y, true);
+    // The slab roofs decks 6 and 7 and the lifeboat recess, so it runs out to the ship's side
+    // even where the cabin decks above are narrower (they step in for some 43 m over the aft
+    // boats, leaving a terrace). Forward of 262 the hull itself narrows and the plan is followed.
+    const roof = dedupe(base.map(([X, z]) => (X < 262 ? [X, Math.sign(z) * Math.max(Math.abs(z), HALF)] : [X, z]) as Pt));
+    white.color(0xffffff).slab(roof, y - SLAB, y, [], undefined, false);
+    deckMat.color(0x9aa9ae).poly(roof, y, true);
     // where the hull itself is narrower (towards the bow) the slab must not stick out
     const wallRing: Pt[] = base.map(([X, z]) => {
       const lim = hullHalf(X, y) + 0.05;
