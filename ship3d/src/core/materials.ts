@@ -177,7 +177,7 @@ export function makeMaterials(): Mats {
     navy: std({ color: 0x15233f, roughness: 0.42, metalness: 0.15 }),
     navy2: std({ color: 0x15233f, roughness: 0.42, metalness: 0.15, side: THREE.DoubleSide }),
     // Tinted window glass: almost a mirror of the sky from outside
-    glass: std({ color: 0x7f95a8, roughness: 0.05, metalness: 1, envMapIntensity: 18 }),
+    glass: std({ color: 0x6f8598, roughness: 0.05, metalness: 0.86, envMapIntensity: 18 }),
     // Glass balustrades and wind screens
     rail: new THREE.MeshStandardMaterial({
       color: 0x8fc0d8,
@@ -193,13 +193,9 @@ export function makeMaterials(): Mats {
     lit: new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }),
     teak: std({ color: 0xffffff, map: teakTex, roughness: 0.82, metalness: 0 }),
     deck: std({ color: 0xffffff, roughness: 0.9 }),
-    turf: std({ color: 0xffffff, map: speckle('#3f8a4a', '#4b9a57', '#357a40'), roughness: 0.95 }),
     court: std({ color: 0xffffff, map: speckle('#3a6fb3', '#4179bd', '#3565a6'), roughness: 0.9 }),
     steel: std({ color: 0xb9c0c6, roughness: 0.32, metalness: 0.85 }),
     dark: std({ color: 0x20262c, roughness: 0.7, metalness: 0.2 }),
-    orange: std({ color: 0xf2581c, roughness: 0.5, metalness: 0 }),
-    yellow: std({ color: 0xf2c230, roughness: 0.45, metalness: 0 }),
-    green: std({ color: 0x47692f, roughness: 0.4, metalness: 0 }),
     color: std({ color: 0xffffff, roughness: 0.6, metalness: 0 }),
     color2: std({ color: 0xffffff, roughness: 0.6, metalness: 0, side: THREE.DoubleSide }),
     tile: std({ color: 0xffffff, map: mosaic(), roughness: 0.35, metalness: 0 }),
@@ -207,6 +203,6 @@ export function makeMaterials(): Mats {
     glow: new THREE.MeshBasicMaterial({ vertexColors: true }),
     water: poolWater(),
   };
-  for (const k of ['teak', 'turf', 'court', 'tile']) (m[k] as THREE.MeshStandardMaterial).map!.repeat.set(1, 1);
+  for (const k of ['teak', 'court', 'tile']) (m[k] as THREE.MeshStandardMaterial).map!.repeat.set(1, 1);
   return m;
 }

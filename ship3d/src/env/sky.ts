@@ -132,9 +132,9 @@ export class Environment {
       this.sun.color.copy(this.sunColor);
       this.sun.intensity = 19 * sunUp * lerp(1, 0.8, this.golden) + 0.05;
     }
-    this.sun.position.copy(this.lightDir).multiplyScalar(420);
-    this.sun.target.position.set(0, 12, 0);
+    this.sun.position.copy(this.lightDir).multiplyScalar(420).add(this.sun.target.position.set(0, 30, 0));
     this.sun.target.updateMatrixWorld();
+    this.fitShadow();
 
     this.hemi.intensity = lerp(2.5, 0.2, this.night) * lerp(1, 0.8, this.golden);
     this.hemi.color.setRGB(lerp(0.72, 1.0, this.golden), lerp(0.84, 0.72, this.golden), lerp(1.0, 0.62, this.golden)).lerp(new THREE.Color(0.2, 0.28, 0.5), this.night);
@@ -145,6 +145,43 @@ export class Environment {
     this.exposure = lerp(lerp(0.22, 0.3, this.golden), 0.85, this.night);
     this.renderer.toneMappingExposure = this.exposure;
     this.dirty = true;
+  }
+
+  /** Fits the shadow map to the ship's bounding box as seen from the light, whatever its direction. */
+  private fitShadow() {
+    const cam = this.sun.shadow.camera;
+    this.sun.updateMatrixWorld();
+    cam.position.copy(this.sun.position);
+    cam.lookAt(this.sun.target.position);
+    cam.updateMatrixWorld();
+    const inv = cam.matrixWorldInverse.copy(cam.matrixWorld).invert();
+    let l = Infinity;
+    let r = -Infinity;
+    let b = Infinity;
+    let t = -Infinity;
+    let n = Infinity;
+    let f = -Infinity;
+    const v = new THREE.Vector3();
+    for (const x of [-169, 169]) {
+      for (const y of [-3, 70]) {
+        for (const z of [-29, 29]) {
+          v.set(x, y, z).applyMatrix4(inv);
+          l = Math.min(l, v.x);
+          r = Math.max(r, v.x);
+          b = Math.min(b, v.y);
+          t = Math.max(t, v.y);
+          n = Math.min(n, -v.z);
+          f = Math.max(f, -v.z);
+        }
+      }
+    }
+    cam.left = l;
+    cam.right = r;
+    cam.bottom = b;
+    cam.top = t;
+    cam.near = Math.max(1, n - 5);
+    cam.far = f + 5;
+    cam.updateProjectionMatrix();
   }
 
   update(time: number) {

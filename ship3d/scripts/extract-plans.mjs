@@ -76,7 +76,6 @@ function alignByBays(d) {
     }
   }
   if (cross.length !== 4) throw new Error(`deck ${d.deck}: expected 4 bay corners, got ${cross.join(',')}`);
-  if (process.env.DEBUG_BAYS) console.log(d.deck, cross, wide);
   // least squares: BAYS[i] = stern + cross[i] / k
   const n = 4;
   const sx = cross.reduce((a, b) => a + b, 0);

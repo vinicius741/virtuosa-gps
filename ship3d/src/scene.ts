@@ -39,7 +39,7 @@ export const SHOTS: Shot[] = [
   { id: 'stern', pos: [-232, 60, 34], target: [-150, 41, 0], drift: -1.5 },
   { id: 'galleria', pos: [sx(GALLERIA.x0 + 5), GALLERIA.y6 + 2.4, 1.2], target: [sx(GALLERIA.x0 + 60), GALLERIA.y6 + 2.2, 0], interior: true },
   { id: 'cutaway', pos: [34, 25, 66], target: [16, 17, 0], drift: 0.35, interior: true, cut: 2.6 },
-  { id: 'sunset', pos: [-225, 20, 255], target: [10, 24, 0], drift: 0.9, hour: 17.5 },
+  { id: 'sunset', pos: [290, 24, -205], target: [0, 26, 0], drift: -0.9, hour: 18.0 },
   { id: 'night', pos: [70, 78, 70], target: [14, 40, 0], drift: 1.6, hour: 21.5 },
 ];
 
@@ -56,6 +56,9 @@ export interface ShipSceneOptions {
   /** called once the first frame is on screen */
   onReady?: () => void;
 }
+
+/** Mid-afternoon: the hour the page opens at. */
+const DAY_HOUR = 15.2;
 
 const QUALITY: Record<Quality, { dpr: number; density: number; shadows: boolean; low: boolean }> = {
   low: { dpr: 1.25, density: 0.4, shadows: false, low: true },
@@ -94,9 +97,12 @@ export class ShipScene {
   private fly: { t: number; dur: number; p0: THREE.Vector3; t0: THREE.Vector3; p1: THREE.Vector3; t1: THREE.Vector3; h0: number; h1: number | null } | null = null;
   private tourT = 0;
   private userHold = 0;
+  /** the Galleria view walks the camera along the promenade until the user takes it */
+  private stroll = true;
   private fill = new THREE.AmbientLight(0xfff0e0, 0);
   private clip = new THREE.Plane(new THREE.Vector3(0, 0, -1), 0);
   private inside = false;
+  private calm = false;
   private dpr: number;
   private maxDpr: number;
   private frames = 0;
@@ -122,11 +128,14 @@ export class ShipScene {
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.domElement.style.display = 'block';
     this.renderer.domElement.style.touchAction = 'none';
+    this.renderer.domElement.setAttribute('role', 'img');
+    this.renderer.domElement.setAttribute('aria-label', '3D view of the ship at sea');
     el.appendChild(this.renderer.domElement);
 
     this.camera = new THREE.PerspectiveCamera(38, 1, 2, 90000);
     this.env = new Environment(this.renderer, this.scene, q.low);
-    this.env.setHour(opts.hour ?? SHOTS.find((s) => s.id === opts.shot)?.hour ?? 15.2);
+    const hour = opts.hour !== undefined && Number.isFinite(opts.hour) ? opts.hour : undefined;
+    this.env.setHour(hour ?? SHOTS.find((s) => s.id === opts.shot)?.hour ?? DAY_HOUR);
     this.ocean = new Ocean(this.env, q.low);
     this.scene.add(this.ocean.mesh, this.fill);
 
@@ -151,6 +160,7 @@ export class ShipScene {
       // the user took the camera: stop flying and stop the tour
       this.fly = null;
       this.userHold = 6;
+      this.stroll = false;
       if (this.tour) {
         this.tour = false;
         this.opts.onShot?.(this.shot, false);
@@ -162,7 +172,9 @@ export class ShipScene {
     this.camera.position.set(...first.pos);
     this.controls.target.set(...first.target);
     this.applyMode(first);
-    this.tour = opts.tour ?? false;
+    // no camera that moves by itself for people who asked their system for less motion
+    this.calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.tour = (opts.tour ?? false) && !this.calm;
 
     this.resizeObs = new ResizeObserver(() => this.resize());
     this.resizeObs.observe(el);
@@ -195,7 +207,10 @@ export class ShipScene {
     // on a tall, narrow screen stand further back so the subject still fits
     const aspect = this.camera.aspect;
     if (aspect < 1 && !s.interior) p1.sub(t1).multiplyScalar(lerp(1.75, 1, clamp((aspect - 0.45) / 0.55, 0, 1))).add(t1);
-    this.fly = { t: 0, dur: seconds, p0: this.camera.position.clone(), t0: this.controls.target.clone(), p1, t1, h0: this.env.hour, h1: s.hour ?? null };
+    // the tour comes back to the afternoon after its sunset and night shots; a view picked by hand keeps the hour
+    const h1 = s.hour ?? (byTour && SHOTS.includes(s) ? DAY_HOUR : null);
+    this.fly = { t: 0, dur: seconds, p0: this.camera.position.clone(), t0: this.controls.target.clone(), p1, t1, h0: this.env.hour, h1 };
+    this.stroll = true;
     this.applyMode(s);
     this.userHold = 0;
     this.tourT = 0;
@@ -276,14 +291,14 @@ export class ShipScene {
       if (f.t >= 1) this.fly = null;
     } else if (this.userHold > 0) {
       this.userHold -= dt;
-    } else if (this.shot.drift) {
+    } else if (this.shot.drift && !this.calm) {
       const a = (this.shot.drift * Math.PI * dt) / 180;
       const p = this.camera.position.sub(this.controls.target);
       const c = Math.cos(a);
       const s = Math.sin(a);
       p.set(p.x * c - p.z * s, p.y, p.x * s + p.z * c);
       this.camera.position.copy(p.add(this.controls.target));
-    } else if (this.shot.id === 'galleria') {
+    } else if (this.shot.id === 'galleria' && this.stroll && !this.calm) {
       // stroll along the promenade and back
       const u = 0.5 - 0.5 * Math.cos(time * 0.07);
       const x = sx(GALLERIA.x0 + 5 + u * (GALLERIA.x1 - GALLERIA.x0 - 62));

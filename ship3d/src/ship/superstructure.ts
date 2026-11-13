@@ -114,18 +114,22 @@ export function frontStations(zm: number, cornerSteps = 8): number[] {
  */
 export function smoothFront(ring: Pt[], nose: number, sweep = 12): Pt[] {
   const Xc = nose - sweep;
-  const cut = dedupe(clipX(ring, -Infinity, Xc));
+  // A plan that ends short of the corners (its own front is further aft) is cut where it is
+  // still full width, and its sides are run forward to the corners.
+  const tip = Math.max(...ring.map((p) => p[0]));
+  const Xcut = tip < Xc + 2 ? tip - 14 : Xc;
+  const cut = dedupe(clipX(ring, -Infinity, Xcut));
   const n = cut.length;
   for (let i = 0; i < n; i++) {
     const a = cut[i];
     const b = cut[(i + 1) % n];
-    if (Math.abs(a[0] - Xc) > 1e-6 || Math.abs(b[0] - Xc) > 1e-6 || Math.abs(a[1] - b[1]) < 4) continue;
+    if (Math.abs(a[0] - Xcut) > 1e-6 || Math.abs(b[0] - Xcut) > 1e-6 || Math.abs(a[1] - b[1]) < 4) continue;
     const zm = Math.min(Math.abs(a[1]), Math.abs(b[1]));
     const dir = Math.sign(b[1] - a[1]);
     const X = frontCurve(nose, sweep, zm);
-    const curve = frontStations(zm)
-      .slice(1, -1)
-      .map((z) => [X(z), z * dir] as Pt);
+    const stations = frontStations(zm);
+    // when the sides were run forward the corners themselves are new points
+    const curve = (Xcut < Xc ? stations : stations.slice(1, -1)).map((z) => [X(z), z * dir] as Pt);
     return [...cut.slice(0, i + 1), ...curve, ...cut.slice(i + 1)];
   }
   return cut;

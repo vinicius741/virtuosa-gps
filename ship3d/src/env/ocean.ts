@@ -381,14 +381,4 @@ export class Ocean {
     u.uGain.value = 0.42 / this.env.exposure;
     (u.uSunColor.value as THREE.Color).copy(this.env.sun.color).multiplyScalar(this.env.night > 0.6 ? 0.25 : Math.min(1, this.env.sun.intensity / 16));
   }
-
-  /** Height of the swell at a point beside the ship, for things that float. */
-  heightAt(x: number, z: number, time: number): number {
-    let y = 0;
-    for (const w of this.material.uniforms.uWaves.value as THREE.Vector4[]) {
-      const k = (Math.PI * 2) / w.z;
-      y += w.w * Math.sin(k * (w.x * (x + this.travel) + w.y * z) - Math.sqrt(9.81 * k) * time);
-    }
-    return y;
-  }
 }

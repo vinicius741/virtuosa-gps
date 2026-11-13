@@ -33,7 +33,7 @@ function start() {
   try {
     view = new ShipScene(stage, {
       quality: (q.get('q') as Quality) || undefined,
-      hour: q.has('hour') ? Number(q.get('hour')) : undefined,
+      hour: q.has('hour') && Number.isFinite(Number(q.get('hour'))) ? Number(q.get('hour')) : undefined,
       shot: q.get('shot') ?? undefined,
       tour: !q.has('shot') && !q.has('cam') && q.get('tour') !== '0',
       onShot: () => render(),
@@ -76,6 +76,9 @@ function start() {
 
   function render() {
     const t = TEXTS[lang];
+    // the controls are redrawn on every change: remember which one had the focus
+    const active = document.activeElement as HTMLElement | null;
+    const focusKey = active?.dataset?.shot ? `[data-shot="${active.dataset.shot}"]` : active && 'tour' in (active.dataset ?? {}) ? '[data-tour]' : active?.id ? `#${active.id}` : null;
     document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
     hint.textContent = t.drag;
     const clean = document.body.classList.contains('clean');
@@ -109,6 +112,7 @@ function start() {
     chips.scrollLeft = scroll;
     if (view.tour) chips.querySelector<HTMLElement>(`[data-shot="${cur.id}"]`)?.style.setProperty('border-color', 'var(--accent)');
     syncClock(view.hour);
+    if (focusKey && focusKey !== '#hour') document.querySelector<HTMLElement>(focusKey)?.focus({ preventScroll: true });
     slider!.addEventListener('input', () => {
       view.timeLapse = 0;
       bottom.querySelector('#lapse')!.setAttribute('aria-pressed', 'false');
