@@ -43,9 +43,12 @@ export function stemX(y: number): number {
   return 321.2 - 3 * Math.pow(Math.min(-y / DRAFT, 1), 2);
 }
 
-/** Depth of the keel line: flat along the ship, rising to just under the surface at the transom. */
+/**
+ * Depth of the keel line: flat along the ship, rising towards the transom. The transom stays
+ * well under water, so that no trough of the swell or the wake can show daylight under the stern.
+ */
 export function keelY(X: number): number {
-  return -lerp(1.1, DRAFT, smoothstep(TRANSOM, 46, X));
+  return -lerp(3.4, DRAFT, smoothstep(TRANSOM, 46, X));
 }
 
 /** Half-breadth of the hull at ship X and height y above the waterline. */

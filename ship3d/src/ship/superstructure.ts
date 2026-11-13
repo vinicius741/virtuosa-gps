@@ -38,6 +38,15 @@ export interface SuperInfo {
 }
 
 const inZone = (X: number) => BOAT_ZONES.some(([a, b]) => X > a && X < b);
+/** The stretch above the aft lifeboats where decks 8 to 14 step in (measured on the plans). */
+const NOTCH: [number, number] = [44, 88];
+const inNotch = (X: number) => X > NOTCH[0] + 5 && X < NOTCH[1] - 5;
+/** The two canted corners of that recess: on the ship the balconies run round them. */
+const notchCorner = (a: Pt, b: Pt) => {
+  const mx = (a[0] + b[0]) / 2;
+  const mz = Math.abs((a[1] + b[1]) / 2);
+  return mx > NOTCH[0] && mx < NOTCH[1] && mz > 14 && mz < 20 && Math.abs(b[0] - a[0]) > 2 && Math.abs(b[1] - a[1]) > 1.5;
+};
 
 /** Clips a ring to a ≤ X ≤ b (Sutherland-Hodgman against two planes). */
 export function clipX(ring: Pt[], a: number, b: number): Pt[] {
@@ -160,7 +169,7 @@ export interface Cab {
  * One cabin deck. `ring` is the outer edge of the deck (balustrades and plain walls stand on it),
  * `cabins` the cabin rectangles of the plan; a cabin that reaches the edge gets a balcony.
  */
-export function cabinDeck(parts: Parts, info: SuperInfo, n: number, ring: Pt[], cabins: Cab[], opts: { y?: number; top?: number; noBalcony?: (X: number) => boolean; glassFrom?: number; frontFrom?: number; openFrom?: number } = {}) {
+export function cabinDeck(parts: Parts, info: SuperInfo, n: number, ring: Pt[], cabins: Cab[], opts: { y?: number; top?: number; noBalcony?: (X: number) => boolean; wrap?: (a: Pt, b: Pt) => boolean; glassFrom?: number; frontFrom?: number; openFrom?: number } = {}) {
   const y = opts.y ?? DECK_Y[n];
   const top = opts.top ?? deckTop(n);
   const ceil = top - SLAB;
@@ -219,6 +228,11 @@ export function cabinDeck(parts: Parts, info: SuperInfo, n: number, ring: Pt[], 
         const ts = [(z0 - a[1]) / dz, (z1 - a[1]) / dz].sort((p, q) => p - q);
         spans.push([ts[0], ts[1], Math.min(Math.max(gap, 1.6), 3)]);
       }
+    }
+    if (!sideEdge && !aftEdge && len > 2.4 && opts.wrap?.(a, b)) {
+      // a canted corner where the balconies carry on round it
+      const count = Math.max(1, Math.round(len / 2.9));
+      for (let k = 0; k < count; k++) spans.push([k / count, (k + 1) / count, 1.5]);
     }
     spans.sort((p, q) => p[0] - q[0]);
     // drop overlaps (two traced cabins claiming the same stretch)
@@ -293,17 +307,24 @@ export function cabinDeck(parts: Parts, info: SuperInfo, n: number, ring: Pt[], 
     let cursor = 0;
     let depth = BALCONY_DEPTH;
     const back = (p: Pt): Pt => [p[0] - o[0] * depth, p[1] - o[1] * depth];
-    const divider = (t: number) => {
+    const divider = (t: number, d = depth) => {
       const p = at(t);
-      const q = back(p);
+      const q: Pt = [p[0] - o[0] * d, p[1] - o[1] * d];
       const e: Pt = [p[0] - o[0] * 0.08, p[1] - o[1] * 0.08];
       white2.color(0xf4f4f1).quad([sx(e[0]), y, e[1]], [sx(q[0]), y, q[1]], [sx(q[0]), ceil, q[1]], [sx(e[0]), ceil, e[1]]);
     };
     for (let k = 0; k < clean.length; k++) {
       const [t0, t1] = clean[k];
-      depth = clean[k][2];
+      depth = Math.max(depth, clean[k][2]);
       // a short gap between two cabins is just a thicker divider, not a stretch of wall
       if ((t0 - cursor) * len > 0.5 || k === 0) plain(cursor, t0);
+      else if (t0 - cursor > 1e-4) {
+        // ... closed at the back, or the sea would show through the slit between the two
+        const g0 = back(at(cursor));
+        const g1 = back(at(t0));
+        white.color(0xe9eae8).quad([sx(g0[0]), y, g0[1]], [sx(g1[0]), y, g1[1]], [sx(g1[0]), ceil, g1[1]], [sx(g0[0]), ceil, g0[1]], [o[0], 0, o[1]]);
+      }
+      depth = clean[k][2];
       const p = at(t0);
       const q = at(t1);
       const pb = back(p);
@@ -322,8 +343,11 @@ export function cabinDeck(parts: Parts, info: SuperInfo, n: number, ring: Pt[], 
         lit.color(litColours[Math.floor(rand() * litColours.length)], 0.45 + rand() * 0.55);
         lit.wall([g0[0] + o[0] * 0.02, g0[1] + o[1] * 0.02], [g1[0] + o[0] * 0.02, g1[1] + o[1] * 0.02], y + 0.06, y + 2.12, o);
       }
-      divider(t0);
-      if (k === clean.length - 1 || clean[k + 1][0] - t1 > 0.01) divider(t1);
+      // where a neighbour is deeper, the divider runs back to its wall too, leaving no slit
+      const prev = k > 0 && (t0 - clean[k - 1][1]) * len <= 0.5 ? clean[k - 1][2] : 0;
+      const next = k < clean.length - 1 && (clean[k + 1][0] - t1) * len <= 0.5 ? clean[k + 1][2] : 0;
+      divider(t0, Math.max(depth, prev));
+      if (k === clean.length - 1 || clean[k + 1][0] - t1 > 0.01) divider(t1, Math.max(depth, next));
       // glass balustrade with a handrail
       const r0: Pt = [p[0] - o[0] * 0.05, p[1] - o[1] * 0.05];
       const r1: Pt = [q[0] - o[0] * 0.05, q[1] - o[1] * 0.05];
@@ -498,12 +522,35 @@ export function buildSuperstructure(parts: Parts): SuperInfo {
   {
     const y = DECK_Y[8];
     const base = dedupe(clipX(ring9, BAND_END - 14, 300));
-    // The slab roofs decks 6 and 7 and the lifeboat recess, so it runs out to the ship's side
-    // even where the cabin decks above are narrower (they step in for some 43 m over the aft
-    // boats, leaving a terrace). Forward of 262 the hull itself narrows and the plan is followed.
-    const roof = dedupe(base.map(([X, z]) => (X < 262 ? [X, Math.sign(z) * Math.max(Math.abs(z), HALF)] : [X, z]) as Pt));
-    white.color(0xffffff).slab(roof, y - SLAB, y, [], undefined, false);
-    deckMat.color(0x9aa9ae).poly(roof, y, true);
+    // slab out to the full width, so it roofs the lifeboat recess
+    white.color(0xffffff).slab(base, y - SLAB, y, [], undefined, false);
+    deckMat.color(0x9aa9ae).poly(base, y, true);
+    // The cabin decks step in for some 43 m above the aft lifeboats, and this deck follows them.
+    // There the boats stand open to the sky, as on the ship; only the top of the block of decks
+    // 6 and 7 behind them needs closing, with a narrow ledge under the lowest balconies.
+    const inner = base.filter(([X, z]) => X < 262 && Math.abs(z) < HALF - 0.6).map(([X]) => X);
+    if (inner.length) {
+      const n0 = Math.min(...inner) - 0.3;
+      const n1 = Math.max(...inner) + 0.3;
+      const [za, zb] = BOAT_ZONES[0];
+      const cap = (x0: number, x1: number, half: number) => {
+        if (x1 - x0 < 0.1) return;
+        for (const s of [1, -1]) {
+          const r: Pt[] = [
+            [x0, s * 13.5],
+            [x1, s * 13.5],
+            [x1, s * half],
+            [x0, s * half],
+          ];
+          white.color(0xffffff).slab(r, y - SLAB, y - 0.03, [], undefined, false);
+          // painted steel, not a deck anyone walks on; a hair lower than the deck it meets
+          white.color(0xe4e7e7).poly(r, y - 0.03, true);
+        }
+      };
+      cap(n0, Math.min(n1, za), HALF); // plain plating aft of the boats: closed to the side
+      cap(Math.max(n0, za), Math.min(n1, zb), RECESS_HALF + 0.35); // behind the boats: the ledge
+      cap(Math.max(n0, zb), n1, HALF);
+    }
     // where the hull itself is narrower (towards the bow) the slab must not stick out
     const wallRing: Pt[] = base.map(([X, z]) => {
       const lim = hullHalf(X, y) + 0.05;
@@ -511,7 +558,7 @@ export function buildSuperstructure(parts: Parts): SuperInfo {
       if (inZone(X) && Math.abs(zz) > 15) zz -= Math.sign(zz) * 2.3;
       return [X, zz] as Pt;
     });
-    cabinDeck(parts, info, 8, dedupe(wallRing), deck(9).cabins.map(toCab), { noBalcony: (X) => inZone(X) || X > 262 });
+    cabinDeck(parts, info, 8, dedupe(wallRing), deck(9).cabins.map(toCab), { noBalcony: (X) => (inZone(X) && !inNotch(X)) || X > 262, wrap: notchCorner });
     // deck 9's floor reaches forward of this, over the open mooring deck: pillars hold it up
     for (const X of [304, 310, 316]) {
       const e = hullHalf(X, y) - 2.2;
@@ -526,7 +573,7 @@ export function buildSuperstructure(parts: Parts): SuperInfo {
     const ring = smoothFront(d.outline[0], TIER_NOSE(n), TIER_SWEEP);
     white.color(0xffffff).slab(ring, y - SLAB - 0.2, y, [], undefined, false);
     deckMat.color(0x9aa9ae).poly(ring, y, true);
-    cabinDeck(parts, info, n, ring, d.cabins.map(toCab), { frontFrom: TIER_NOSE(n) - TIER_SWEEP });
+    cabinDeck(parts, info, n, ring, d.cabins.map(toCab), { frontFrom: TIER_NOSE(n) - TIER_SWEEP, wrap: notchCorner });
   }
   // the two raking white ladders that frame the middle of the forward face
   for (const s of [1, -1]) {
@@ -565,7 +612,7 @@ export function buildSuperstructure(parts: Parts): SuperInfo {
     }
     white.color(0xffffff).slab(ring, y - SLAB - 0.25, y, [], undefined, false);
     deckMat.color(0x9aa9ae).poly(ring, y, true);
-    cabinDeck(parts, info, 14, ring, d.cabins.map(toCab), { glassFrom: BRIDGE.aft - 0.2 });
+    cabinDeck(parts, info, 14, ring, d.cabins.map(toCab), { glassFrom: BRIDGE.aft - 0.2, wrap: notchCorner });
     // the bridge roof: a white slab overhanging the glass all round
     const roof = dedupe(clipX(ring, BRIDGE.aft - 1, 400)).map(([X, z]) => [X + (X > BRIDGE.aft ? 0.8 : 0), z + Math.sign(z) * (Math.abs(z) > 22 ? 0.5 : 0)] as Pt);
     white.color(0xffffff).slab(roof, DECK_Y[15] - 0.1, DECK_Y[15] + 0.3);

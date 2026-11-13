@@ -158,7 +158,10 @@ const VERT = /* glsl */ `
     float side = abs(p.z) - hullHalf(p.x);
     float inHull = step(-166.0, p.x) * step(p.x, 157.0);
     float near = inHull * (1.0 - smoothstep(0.0, 14.0, side));
-    d *= mix(1.0, 0.45, near);
+    // ... and in the first lengths of the wake, where the propellers have flattened it
+    float astern = -165.5 - p.x;
+    float behind = step(0.0, astern) * (1.0 - smoothstep(10.0, 70.0, astern)) * (1.0 - smoothstep(16.0, 30.0, abs(p.z)));
+    d *= mix(1.0, 0.45, max(near, behind));
     // bow wave: a ridge running aft along two arms from the stem
     float back = 157.0 - p.x;
     float arm = abs(p.z) - (hullHalf(p.x) * step(0.0, back) + max(back, 0.0) * 0.21);
@@ -166,10 +169,13 @@ const VERT = /* glsl */ `
     float ridge = exp(-min(arm * arm / (9.0 + aft * 0.35), 60.0)) * exp(-aft / 190.0) * step(-4.0, back);
     d.y += ridge * 1.25 * (0.75 + 0.25 * sin(q.x * 0.35));
     // the hollow just behind the bow wave, then the stern wave
-    float astern = -165.5 - p.x;
     float wakeHalf = 19.0 + max(astern, 0.0) * 0.075;
     float inWake = step(0.0, astern) * (1.0 - smoothstep(wakeHalf - 4.0, wakeHalf + 8.0, abs(p.z)));
-    d.y += inWake * 0.55 * sin(astern * 0.16 - uTime * 2.2) * exp(-max(astern, 0.0) / 150.0);
+    // the ripple grows from nothing at the transom, so the water never drops away from the stern
+    d.y += inWake * 0.55 * smoothstep(4.0, 26.0, astern) * sin(astern * 0.16 - uTime * 2.2) * exp(-max(astern, 0.0) / 150.0);
+    // the water the propellers throw up, piled against the transom
+    float pile = (astern + 2.5) / 7.0;
+    d.y += 0.5 * exp(-min(pile * pile, 60.0)) * (1.0 - smoothstep(13.0, 21.0, abs(p.z)));
     vCrest = d.y;
     p += d * (0.15 + 0.85 * vFade);
     vWorld = p;
@@ -249,9 +255,14 @@ const FRAG = /* glsl */ `
     float edgeD = (abs(z) - wakeHalf) / 3.5;
     float edge = step(0.0, astern) * exp(-min(edgeD * edgeD, 60.0)) * exp(-max(astern, 0.0) / 380.0);
     float wash = trail * (0.35 + 0.65 * exp(-max(astern, 0.0) / 90.0));
+    // long streaks drawn out by the ship's speed, so the wake is ropes of foam and not a sheet
+    float streak = texture2D(uNoise, vec2(vSea.x * 0.0045, z * 0.055 + 0.3)).z;
+    // white water boiling up right behind the transom
+    float boil = step(-2.5, astern) * exp(-max(astern, 0.0) / 16.0) * (1.0 - smoothstep(15.0, 20.5, abs(z)));
     float foam = skirt * smoothstep(0.25, 0.75, foamNoise + skirt * 0.5)
                + arm * smoothstep(0.3, 0.8, foamNoise + arm * 0.6)
-               + wash * smoothstep(0.42 - wash * 0.3, 0.85, foamNoise * 0.7 + churn * 0.6)
+               + wash * smoothstep(0.62 - wash * 0.22, 1.05, foamNoise * 0.6 + churn * 0.45 + streak * 0.5)
+               + boil * smoothstep(0.3, 0.75, foamNoise * 0.75 + streak * 0.35)
                + edge * smoothstep(0.35, 0.8, foamNoise);
     // a few thin whitecaps on the steepest open-sea crests
     float cap = smoothstep(0.92, 1.25, vCrest / max(uSea, 0.2) + (n2.z - 0.5) * 0.9) * smoothstep(0.55, 0.8, n3.z) * vFade;
@@ -317,6 +328,9 @@ const FRAG = /* glsl */ `
     // warm glow of the ship's lights on the water at night
     float glow = uShipLights * exp(-max(side, 0.0) / 26.0) * inLen;
     col += uGain * vec3(1.0, 0.66, 0.3) * glow * 0.045 * (0.6 + n2.z);
+
+    // the stern's own shadow on the water it sits in
+    col *= 1.0 - 0.5 * step(-2.5, astern) * exp(-max(astern, 0.0) / 4.5) * (1.0 - smoothstep(18.5, 21.5, abs(z)));
 
     // haze towards the horizon
     float haze = 1.0 - exp(-pow(dist / 9000.0, 1.25));
