@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Virtuosa 3D: the MSC Virtuosa at sea, in your browser</title>
+    <meta name="description" content="An unofficial, open-source 3D model of the cruise ship MSC Virtuosa under way: pool party, aquapark, balconies and the Galleria, built from the open deck plans of Virtuosa GPS." />
+    <meta name="theme-color" content="#0b1f3a" />
+    <meta property="og:title" content="Virtuosa 3D" />
+    <meta property="og:description" content="The MSC Virtuosa at sea, in 3D, in your browser. Unofficial and open source." />
+    <meta property="og:image" content="https://virtuosa-3d.vinicius741.workers.dev/og.jpg" />
+    <meta property="og:url" content="https://virtuosa-3d.vinicius741.workers.dev/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <style>
+      :root {
+        --navy: #0b1f3a;
+        --ink: #f3f6fb;
+        --dim: rgba(243, 246, 251, 0.72);
+        --glass: rgba(11, 26, 48, 0.62);
+        --line: rgba(255, 255, 255, 0.16);
+        --accent: #ff6a3d;
+        --sea: #3aa0e8;
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; background: var(--navy); color: var(--ink); overflow: hidden; overscroll-behavior: none; }
+      #stage { position: fixed; inset: 0; }
+      button { font: inherit; color: inherit; cursor: pointer; }
+      svg { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+      #loading { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; background: radial-gradient(120% 90% at 50% 20%, #17406f, var(--navy) 70%); transition: opacity 0.9s ease; }
+      #loading.done { opacity: 0; pointer-events: none; }
+      #loading .box { text-align: center; padding: 24px; max-width: 420px; }
+      #loading h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: 0.02em; }
+      #loading p { margin: 0; color: var(--dim); font-size: 15px; }
+      #loading .wave { width: 120px; height: 14px; margin: 22px auto 0; overflow: hidden; }
+      #loading .wave svg { width: 240px; height: 14px; stroke: var(--sea); stroke-width: 2.5; animation: slide 1.4s linear infinite; }
+      @keyframes slide { to { transform: translateX(-40px); } }
+
+      .ui { position: fixed; left: 0; right: 0; z-index: 10; pointer-events: none; transition: opacity 0.35s ease, transform 0.35s ease; }
+      .ui > * { pointer-events: auto; }
+      #top { top: 0; display: flex; align-items: center; gap: 8px; padding: calc(10px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) 0 calc(12px + env(safe-area-inset-left)); }
+      .brand { display: flex; align-items: baseline; gap: 8px; padding: 8px 12px; border-radius: 12px; background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--line); }
+      .brand { white-space: nowrap; }
+      .brand b { font-size: 16px; letter-spacing: 0.01em; }
+      .brand span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--dim); }
+      .grow { flex: 1; }
+      .pill { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; border-radius: 12px; background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--line); font-size: 14px; text-decoration: none; color: var(--ink); white-space: nowrap; }
+      .pill:hover { border-color: rgba(255, 255, 255, 0.4); }
+      .pill:focus-visible, .chip:focus-visible, input:focus-visible { outline: 2px solid var(--sea); outline-offset: 2px; }
+      .pill.icon { width: 40px; padding: 0; justify-content: center; }
+
+      #bottom { bottom: 0; padding: 0 0 calc(10px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 8px; background: linear-gradient(to top, rgba(6, 16, 31, 0.72), rgba(6, 16, 31, 0)); }
+      #caption { margin: 0 calc(12px + env(safe-area-inset-right)) 0 calc(12px + env(safe-area-inset-left)); max-width: 560px; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6); pointer-events: none; }
+      #caption h2 { margin: 0; font-size: 22px; line-height: 1.15; }
+      #caption p { margin: 3px 0 0; font-size: 14px; line-height: 1.35; color: var(--ink); opacity: 0.92; }
+      #chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px calc(12px + env(safe-area-inset-right)) 2px calc(12px + env(safe-area-inset-left)); scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      #chips::-webkit-scrollbar { display: none; }
+      .chip { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 0 14px; border-radius: 999px; background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--line); font-size: 14px; white-space: nowrap; }
+      .chip[aria-pressed='true'] { background: var(--ink); color: var(--navy); border-color: var(--ink); font-weight: 600; }
+      .chip.tour { border-color: var(--accent); }
+      .chip.tour[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: #fff; }
+      #clock { display: flex; align-items: center; gap: 10px; margin: 0 calc(12px + env(safe-area-inset-right)) 0 calc(12px + env(safe-area-inset-left)); padding: 4px 6px 4px 12px; border-radius: 14px; background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--line); max-width: 560px; }
+      #clock output { font-variant-numeric: tabular-nums; font-size: 14px; min-width: 3.1em; }
+      #clock input { flex: 1; min-width: 0; height: 36px; accent-color: var(--accent); }
+      #clock button { width: 40px; height: 40px; border-radius: 10px; border: 0; background: transparent; display: grid; place-items: center; }
+      #clock button[aria-pressed='true'] { background: var(--accent); }
+      #hint { position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 9; padding: 10px 14px; border-radius: 12px; background: var(--glass); border: 1px solid var(--line); font-size: 14px; text-align: center; max-width: 80vw; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+      #hint.on { opacity: 1; }
+      #notice { margin: 0 calc(12px + env(safe-area-inset-right)) 0 calc(12px + env(safe-area-inset-left)); font-size: 11px; line-height: 1.35; color: var(--dim); max-width: 620px; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7); }
+      body.clean #bottom { opacity: 0; transform: translateY(16px); pointer-events: none; }
+      body.clean #bottom > * { pointer-events: none; }
+      body.clean #top .hideable { opacity: 0; pointer-events: none; }
+      body.noui .ui, body.noui #hint { display: none !important; }
+      .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+      @media (max-width: 520px) {
+        .pill.gps { width: 40px; padding: 0; justify-content: center; }
+        .pill.gps span { display: none; }
+      }
+      @media (min-width: 760px) {
+        #caption h2 { font-size: 28px; }
+        #caption p { font-size: 15px; }
+        #bottom { padding-bottom: 16px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #loading .wave svg { animation: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <div id="loading" role="status">
+      <div class="box">
+        <h1>Virtuosa 3D</h1>
+        <p id="loading-text">Building the ship…</p>
+        <div class="wave"><svg viewBox="0 0 240 14"><path d="M0 7q10-8 20 0t20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0" /></svg></div>
+      </div>
+    </div>
+    <div id="top" class="ui"></div>
+    <div id="hint"></div>
+    <div id="bottom" class="ui"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

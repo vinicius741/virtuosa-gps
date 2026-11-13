@@ -6,6 +6,8 @@
 
 [Read in English](README.md)
 
+**Novidade: o navio em 3D.** As mesmas plantas agora também montam um modelo 3D do navio navegando, com umas duas mil pessoas a bordo: https://virtuosa-3d.vinicius741.workers.dev/pt/. Veja [ship3d/README.md](ship3d/README.md) (em inglês).
+
 > Projeto não oficial, feito por passageiros. Não tem ligação com a MSC Cruzeiros nem aprovação dela. "MSC" e "MSC Virtuosa" são marcas dos seus donos e aparecem aqui só para dizer de que navio são as plantas. Plantas e rotas são aproximadas: siga sempre as placas do navio e as orientações da tripulação.
 
 ## O que tem aqui
