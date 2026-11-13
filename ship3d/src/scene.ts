@@ -11,7 +11,20 @@ import { Effects } from './life/effects';
 import { buildShip, type ShipModel } from './ship';
 import { GALLERIA, buildInterior, type Interior } from './ship/interior';
 
-export type Quality = 'low' | 'medium' | 'high';
+export type Quality = 'lite' | 'low' | 'medium' | 'high';
+/** Every quality, lightest first. */
+export const TIERS: Quality[] = ['lite', 'low', 'medium', 'high'];
+
+/** What the scene measured over the last two seconds. */
+export interface Perf {
+  fps: number;
+  /** frames per second the scene is aiming for (its cap, or 60) */
+  target: number;
+  /** the resolution is as low as it goes: nothing left to give up but the quality itself */
+  atFloor: boolean;
+  /** the resolution is at the best this quality allows */
+  atBest: boolean;
+}
 
 export interface Shot {
   id: string;
@@ -55,18 +68,35 @@ export interface ShipSceneOptions {
   onHour?: (hour: number) => void;
   /** called once the first frame is on screen */
   onReady?: () => void;
+  /** start with the camera here instead of on the shot's own position */
+  camera?: { pos: [number, number, number]; target: [number, number, number] };
+  /** frames per second to hold to; null for no cap. Default: 30 on 'lite', none on the others */
+  fpsCap?: number | null;
+  /** accessible name of the canvas */
+  label?: string;
+  /** every two seconds: how well the device is keeping up */
+  onPerf?: (perf: Perf) => void;
+  /** the browser took the graphics context away (memory pressure, usually): the picture is gone */
+  onContextLost?: () => void;
 }
 
 /** Mid-afternoon: the hour the page opens at. */
 const DAY_HOUR = 15.2;
+/** The resolution never drops below this share of a CSS pixel. */
+const FLOOR_DPR = 0.6;
 
-const QUALITY: Record<Quality, { dpr: number; density: number; shadows: boolean; low: boolean }> = {
+const QUALITY: Record<Quality, { dpr: number; density: number; shadows: boolean; low: boolean; fps?: number }> = {
+  // for phones that struggle: a fifth of the people, the cheapest sea, no smoothing of edges
+  lite: { dpr: 1, density: 0.18, shadows: false, low: true, fps: 30 },
   low: { dpr: 1.25, density: 0.4, shadows: false, low: true },
   medium: { dpr: 1.5, density: 0.7, shadows: true, low: true },
   high: { dpr: 2, density: 1, shadows: true, low: false },
 };
 
-/** A phone or a small laptop gets fewer people and a lighter sea. */
+/**
+ * A phone or a small laptop gets fewer people and a lighter sea. This is only a guess from what
+ * the browser tells: AutoShip (auto.ts) measures instead, and is what an embedding page should use.
+ */
 export function guessQuality(): Quality {
   const coarse = matchMedia('(pointer: coarse)').matches;
   const cores = navigator.hardwareConcurrency || 4;
@@ -109,6 +139,9 @@ export class ShipScene {
   private slow = 0;
   private fpsT = 0;
   private ready = false;
+  /** shortest time between two frames, milliseconds (0: every frame the screen offers) */
+  private gap = 0;
+  private drawn = 0;
   private resizeObs: ResizeObserver;
   private disposed = false;
 
@@ -119,7 +152,9 @@ export class ShipScene {
     this.opts = opts;
     this.quality = opts.quality ?? guessQuality();
     const q = QUALITY[this.quality];
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    const lite = this.quality === 'lite';
+    this.renderer = new THREE.WebGLRenderer({ antialias: !lite, powerPreference: lite ? 'default' : 'high-performance' });
+    this.setFpsCap(opts.fpsCap === undefined ? (q.fps ?? null) : opts.fpsCap);
     this.maxDpr = Math.min(devicePixelRatio || 1, q.dpr);
     this.dpr = this.maxDpr;
     this.renderer.setPixelRatio(this.dpr);
@@ -129,14 +164,18 @@ export class ShipScene {
     this.renderer.domElement.style.display = 'block';
     this.renderer.domElement.style.touchAction = 'none';
     this.renderer.domElement.setAttribute('role', 'img');
-    this.renderer.domElement.setAttribute('aria-label', '3D view of the ship at sea');
+    this.renderer.domElement.setAttribute('aria-label', opts.label ?? '3D view of the ship at sea');
+    this.renderer.domElement.addEventListener('webglcontextlost', (e) => {
+      e.preventDefault();
+      this.opts.onContextLost?.();
+    });
     el.appendChild(this.renderer.domElement);
 
     this.camera = new THREE.PerspectiveCamera(38, 1, 2, 90000);
     this.env = new Environment(this.renderer, this.scene, q.low);
     const hour = opts.hour !== undefined && Number.isFinite(opts.hour) ? opts.hour : undefined;
     this.env.setHour(hour ?? SHOTS.find((s) => s.id === opts.shot)?.hour ?? DAY_HOUR);
-    this.ocean = new Ocean(this.env, q.low);
+    this.ocean = new Ocean(this.env, q.low, lite);
     this.scene.add(this.ocean.mesh, this.fill);
 
     this.ship = buildShip();
@@ -169,8 +208,8 @@ export class ShipScene {
 
     const first = SHOTS.find((s) => s.id === opts.shot) ?? SHOTS[0];
     this.shot = first;
-    this.camera.position.set(...first.pos);
-    this.controls.target.set(...first.target);
+    this.camera.position.set(...(opts.camera?.pos ?? first.pos));
+    this.controls.target.set(...(opts.camera?.target ?? first.target));
     this.applyMode(first);
     // no camera that moves by itself for people who asked their system for less motion
     this.calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -189,6 +228,31 @@ export class ShipScene {
 
   get currentShot() {
     return this.shot;
+  }
+
+  /** The camera is flying to a view: not the moment to rebuild anything. */
+  get busy() {
+    return this.fly !== null;
+  }
+
+  /** Where the camera is and what it looks at, to hand to another scene's `camera` option. */
+  get view(): { pos: [number, number, number]; target: [number, number, number] } {
+    return { pos: this.camera.position.toArray(), target: this.controls.target.toArray() };
+  }
+
+  /** Hold to this many frames per second (null: as many as the screen offers). */
+  setFpsCap(fps: number | null) {
+    this.gap = fps ? 1000 / fps : 0;
+  }
+
+  /** The picture on screen right now as a JPEG data URL, or null if the browser refuses. */
+  snapshot(): string | null {
+    try {
+      this.renderer.render(this.scene, this.camera);
+      return this.renderer.domElement.toDataURL('image/jpeg', 0.8);
+    } catch {
+      return null;
+    }
   }
 
   setHour(h: number) {
@@ -265,6 +329,9 @@ export class ShipScene {
   private frame(now: number) {
     if (this.disposed) return;
     this.raf = requestAnimationFrame(this.frame);
+    // a capped scene sits out the frames in between (2 ms of slack for the screen's own jitter)
+    if (this.gap && this.ready && now - this.drawn < this.gap - 2) return;
+    this.drawn = now;
     // the first timestamp can be earlier than the moment the scene was built
     const real = clamp((now - this.last) / 1000, 0, 0.1);
     this.last = now;
@@ -371,16 +438,20 @@ export class ShipScene {
   private adapt(dt: number) {
     this.frames++;
     this.fpsT += dt;
-    if (dt > 1 / 28) this.slow++;
+    // against a cap the bar is the cap itself; uncapped, a phone screen's 60
+    const cap = this.gap ? 1000 / this.gap : 0;
+    if (dt > (cap ? 1.5 / cap : 1 / 28)) this.slow++;
     if (this.fpsT < 2) return;
     const fps = this.frames / this.fpsT;
     const slowShare = this.slow / this.frames;
     this.frames = 0;
     this.slow = 0;
     this.fpsT = 0;
+    this.opts.onPerf?.({ fps, target: cap || 60, atFloor: this.dpr <= FLOOR_DPR + 1e-3, atBest: this.dpr >= this.maxDpr - 1e-3 });
+    if (this.disposed) return;
     let next = this.dpr;
-    if (fps < 32 || slowShare > 0.5) next = Math.max(0.6, this.dpr - 0.2);
-    else if (fps > 55 && this.dpr < this.maxDpr) next = Math.min(this.maxDpr, this.dpr + 0.1);
+    if (fps < (cap ? cap * 0.8 : 32) || slowShare > 0.5) next = Math.max(FLOOR_DPR, this.dpr - 0.2);
+    else if (fps > (cap ? cap * 0.93 : 55) && this.dpr < this.maxDpr) next = Math.min(this.maxDpr, this.dpr + 0.1);
     if (next !== this.dpr) {
       this.dpr = next;
       this.resize();

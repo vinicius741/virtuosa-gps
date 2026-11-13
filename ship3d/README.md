@@ -22,6 +22,7 @@ The MSC Virtuosa under way, in the browser: a three.js scene built in code from 
 | `src/env/` | Sky (sun, moon, stars, clouds) and the ocean shader. |
 | `src/life/` | `people.ts` draws everyone in one instanced mesh, limbs animated in the vertex shader; `crowd.ts` decides what each person does; `effects.ts` adds spray, fountains, flags and party lights. |
 | `src/scene.ts` | `ShipScene`: the whole scene behind a small API. |
+| `src/auto.ts` | `AutoShip`: picks the quality by measuring, for pages that run on phones of every kind. |
 | `src/main.ts`, `index.html` | This page: views, tour, clock, EN/PT. |
 
 Heights (deck levels, the funnel, the bow) are not on the plans; they were set by eye against photographs on Wikimedia Commons, which are not part of this repository.
@@ -36,7 +37,7 @@ npm run build:3d     # static files in ship3d/dist/
 npm run deploy:3d    # Cloudflare Worker "virtuosa-3d" (static assets only)
 ```
 
-Useful while working: `?shot=pool` opens a view, `?hour=21` sets the clock, `?q=low|medium|high` forces a quality level, `?ui=0` hides the controls, `?cam=x,y,z,tx,ty,tz` places the camera by hand (add `&inside=1` and `&cut=2.6` for the interior).
+Useful while working: `?shot=pool` opens a view, `?hour=21` sets the clock, `?q=lite|low|medium|high` forces a quality level, `?ui=0` hides the controls, `?cam=x,y,z,tx,ty,tz` places the camera by hand (add `&inside=1` and `&cut=2.6` for the interior).
 
 ## Use it in your own page
 
@@ -49,4 +50,19 @@ view.setHour(21);
 view.dispose();
 ```
 
-The element decides the size; the scene follows it. Quality (people, shadows, resolution) is picked from the device and adapts while running.
+The element decides the size; the scene follows it. `ShipScene` guesses a quality (people, shadows, resolution) from the device and only adapts its resolution while running.
+
+For a page that phones of every kind will open, use `AutoShip` instead. It starts on the lightest quality (`lite`: a fifth of the people, the cheapest sea, 30 frames per second), measures how the device keeps up, moves up one quality at a time while there is room and back down when there is not, and remembers the result on the device. When no 3D is possible it says so, and the page shows something else:
+
+```ts
+import { AutoShip } from 'virtuosa-gps/ship3d';
+
+const ship = new AutoShip(el, {
+  tour: true,
+  onFallback: (reason) => showPicturesInstead(reason), // 'no-webgl' | 'too-slow' | 'context-lost'
+});
+ship.scene?.goTo('pool'); // the current ShipScene; it is replaced when the quality changes
+ship.setMode('lite'); // the viewer's own choice: 'auto' | 'lite' | 'full'
+```
+
+Load it with a dynamic `import()` after a tap, so that nobody pays for the 3D before asking for it. The texts of the views are available without three.js from `virtuosa-gps/ship3d/texts`.
