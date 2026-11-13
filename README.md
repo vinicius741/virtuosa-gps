@@ -6,6 +6,8 @@
 
 [Leia em português](README.pt-BR.md)
 
+**New: the ship in 3D.** The same plans now also build a 3D model of the ship at sea, with a couple of thousand people on board: https://virtuosa-3d.vinicius741.workers.dev. See [ship3d/README.md](ship3d/README.md).
+
 > Unofficial project made by passengers. It is not affiliated with, endorsed by or connected to MSC Cruises. "MSC" and "MSC Virtuosa" are trademarks of their owners and are used here only to say which ship the plans describe. Plans and routes are approximate: always follow the signs on board and the crew's instructions.
 
 ![Share card](public/og.png)
@@ -19,6 +21,7 @@
 | `src/gps/` | The GPS itself: an Astro component (`Gps.astro`), the routing engine (`lib/rotas.ts`, Dijkstra on the grid plus a deck-change graph), the ship side view, styles and the EN/PT-BR texts. |
 | `src/site/`, `src/pages/` | This website: `/` in English and `/pt/` in Brazilian Portuguese. |
 | `plantas/` | The pipeline that produced the plans and the route data (Python, see [plantas/README.md](plantas/README.md)). |
+| `ship3d/` | The 3D ship: a three.js scene generated from the plans, deployed as its own site (see [ship3d/README.md](ship3d/README.md)). |
 
 Features: search by cabin number or venue name, route split into walking steps with a zoomable plan for each, side view of the ship with the deck changes, named favorites ("Mom", "Grandma") stored on the phone and shareable by link (`?fav=Mom~c10123`), deep links to a route (`?de=c10021&para=p15-r169`), offline support through a service worker.
 
@@ -57,7 +60,7 @@ import 'virtuosa-gps/styles.css';
 <Gps lang="pt" />  <!-- or "en" (default) -->
 ```
 
-The component expects a few basic classes and design tokens from the page (`.card`, `.btn`, `.input`, `.lbl`, `.busca`, `--primary`, `--accent`, `--surface`…). Copy them from [`src/site/styles/site.css`](src/site/styles/site.css) and change the colors as you like. Other exports: `virtuosa-gps/rotas` (routing engine), `virtuosa-gps/zoom`, `virtuosa-gps/icons`, `virtuosa-gps/strings`, `virtuosa-gps/ShipProfile.astro`.
+The component expects a few basic classes and design tokens from the page (`.card`, `.btn`, `.input`, `.lbl`, `.busca`, `--primary`, `--accent`, `--surface`…). Copy them from [`src/site/styles/site.css`](src/site/styles/site.css) and change the colors as you like. Other exports: `virtuosa-gps/rotas` (routing engine), `virtuosa-gps/zoom`, `virtuosa-gps/icons`, `virtuosa-gps/strings`, `virtuosa-gps/ShipProfile.astro`. The 3D scene is `virtuosa-gps/ship3d` (it needs `three`).
 
 ## Translations
 
