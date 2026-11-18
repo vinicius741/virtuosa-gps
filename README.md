@@ -1,16 +1,39 @@
 # Virtuosa GPS
 
-**Walking directions inside the MSC Virtuosa cruise ship.** Pick where you are (a cabin or a venue) and where you want to go: the GPS shows the walking route, which lifts or stairs to take, and the plan of every deck along the way. It runs entirely in the browser and keeps working offline once loaded, which matters on a ship where internet is expensive or missing.
+**Walking directions inside the MSC Virtuosa cruise ship, and the whole ship in 3D.**
+
+[![The MSC Virtuosa in 3D: the bow at golden hour, an aerial pass over the top decks, a ride down the water slide, the pool party at night and the ship lit up after dark](docs/media/ship3d-tour.gif)](https://virtuosa-3d.vinicius741.workers.dev)
+
+*The 3D ship, running live in the browser: [open it](https://virtuosa-3d.vinicius741.workers.dev) and fly around it yourself.*
+
+**The GPS.** Pick where you are (a cabin or a venue) and where you want to go: the GPS shows the walking route, which lifts or stairs to take, and the plan of every deck along the way. It runs entirely in the browser and keeps working offline once loaded, which matters on a ship where internet is expensive or missing.
 
 **Open it:** https://virtuosa-gps.vinicius741.workers.dev (English) · https://virtuosa-gps.vinicius741.workers.dev/pt/ (Português)
 
 [Leia em português](README.pt-BR.md)
 
-**New: the ship in 3D.** The same plans now also build a 3D model of the ship at sea, with a couple of thousand people on board: https://virtuosa-3d.vinicius741.workers.dev. See [ship3d/README.md](ship3d/README.md).
-
 > Unofficial project made by passengers. It is not affiliated with, endorsed by or connected to MSC Cruises. "MSC" and "MSC Virtuosa" are trademarks of their owners and are used here only to say which ship the plans describe. Plans and routes are approximate: always follow the signs on board and the crew's instructions.
 
+## The ship in 3D
+
+The same deck plans also build a 3D model of the ship at sea, entirely in code with three.js: no downloaded model, no photo textures. The 331 m hull, about 1,300 balconies, the pool court, the aquapark and its slides, the Galleria promenade inside, and about 2,400 people who swim, dance, jog, ride the slides and step out on their balconies. Drag the clock from noon to sunset to night and the lights come on.
+
+**Open it:** https://virtuosa-3d.vinicius741.workers.dev (English) · https://virtuosa-3d.vinicius741.workers.dev/pt/ (Português). It adjusts its quality to the device, so it runs on phones too.
+
+| | | |
+|---|---|---|
+| ![The pool court at midday, full of swimmers and sunbathers](docs/media/ship3d-pool.jpg) | ![The aquapark with its three water slides](docs/media/ship3d-aquapark.jpg) | ![Inside the Galleria promenade under its LED sky](docs/media/ship3d-galleria.jpg) |
+| Pool court | Aquapark | Galleria, inside |
+| ![The pool party at night seen from above](docs/media/ship3d-night.jpg) | ![The bow cutting through the swell](docs/media/ship3d-bow.jpg) | ![The ship at sunset](docs/media/ship3d-sunset.jpg) |
+| Pool party at night | Bow | Sunset |
+
+How it is built, and how to put it in your own page: [ship3d/README.md](ship3d/README.md).
+
+## The GPS
+
 ![Share card](public/og.png)
+
+Features: search by cabin number or venue name, route split into walking steps with a zoomable plan for each, side view of the ship with the deck changes, named favorites ("Mom", "Grandma") stored on the phone and shareable by link (`?fav=Mom~c10123`), deep links to a route (`?de=c10021&para=p15-r169`), offline support through a service worker.
 
 ## What's inside
 
@@ -22,8 +45,6 @@
 | `src/site/`, `src/pages/` | This website: `/` in English and `/pt/` in Brazilian Portuguese. |
 | `plantas/` | The pipeline that produced the plans and the route data (Python, see [plantas/README.md](plantas/README.md)). |
 | `ship3d/` | The 3D ship: a three.js scene generated from the plans, deployed as its own site (see [ship3d/README.md](ship3d/README.md)). |
-
-Features: search by cabin number or venue name, route split into walking steps with a zoomable plan for each, side view of the ship with the deck changes, named favorites ("Mom", "Grandma") stored on the phone and shareable by link (`?fav=Mom~c10123`), deep links to a route (`?de=c10021&para=p15-r169`), offline support through a service worker.
 
 ## Run it locally
 

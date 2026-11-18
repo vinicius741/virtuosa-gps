@@ -4,6 +4,8 @@ The MSC Virtuosa under way, in the browser: a three.js scene built in code from 
 
 **Open it:** https://virtuosa-3d.vinicius741.workers.dev (English) · https://virtuosa-3d.vinicius741.workers.dev/pt/ (Português)
 
+![The MSC Virtuosa in 3D: the bow at golden hour, an aerial pass over the top decks, a ride down the water slide, the pool party at night and the ship lit up after dark](../docs/media/ship3d-tour.gif)
+
 > Unofficial project made by passengers. It is not affiliated with, endorsed by or connected to MSC Cruises. The ship carries no cruise line logo: the emblem on the funnel is this project's own. Shapes and details are approximate.
 
 ## What you see
@@ -12,6 +14,13 @@ The MSC Virtuosa under way, in the browser: a three.js scene built in code from 
 - **People, about 2,400 of them, all moving**: a pool party in front of the stage, swimmers, sunbathers, joggers on the track, children in the water playground, riders coming down the slides, guests stepping out on their balconies and going back in, officers on the bridge wings.
 - **Inside**: the Galleria, the two-deck promenade under an LED sky, with another party; and a cutaway view where people walk the real corridors of the plans.
 - **The sea**: swell, bow wave, wake, foam and spray, with the sky reflected in it. Drag the clock from noon to sunset to night: cabin lights, pool lights and party lights come on.
+
+| | | |
+|---|---|---|
+| ![The pool court at midday](../docs/media/ship3d-pool.jpg) | ![The aquapark with its three water slides](../docs/media/ship3d-aquapark.jpg) | ![Inside the Galleria promenade](../docs/media/ship3d-galleria.jpg) |
+| ![The pool party at night](../docs/media/ship3d-night.jpg) | ![The bow](../docs/media/ship3d-bow.jpg) | ![The ship at sunset](../docs/media/ship3d-sunset.jpg) |
+
+The GIF and pictures above are frames of the live scene captured with headless Chromium; they are not retouched.
 
 ## How it is made
 
